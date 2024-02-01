@@ -1,0 +1,29 @@
+.menu-list {
+  width: 100%;
+  background-color: white;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.2s ease;
+  visibility: hidden;
+}
+
+.fade {
+  opacity: 0;
+  animation: fadeAnimation 1s ease-in-out;
+}
+
+@keyframes fadeAnimation {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.menu-list:hover {
+  transform: translateY(0);
+  opacity: 1;
+  display: block;
+  visibility: unset;
+}

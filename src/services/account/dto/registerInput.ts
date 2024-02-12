@@ -1,6 +1,8 @@
 export interface IRegisterInput {
-  userName: string;
+  firstName: string;
+  lastName: string;
   password: string;
-  fullName: string;
+  email: string;
+  phoneNumber: number;
   gender: boolean;
 }

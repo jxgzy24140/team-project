@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Layout, Col, Row } from "antd";
+import { Layout } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { Route, Routes } from "react-router-dom";
 import { userLayout } from "./Router/router.config";

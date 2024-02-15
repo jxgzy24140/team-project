@@ -1,17 +1,42 @@
 import http from "@/services/httpService";
-import { ICreateOrUpdateCategoryInput } from "./dto/createOrUpdateCategoryInput";
-import { ICategoryOutput } from "./dto/categoryOutput";
+import {
+  ICreateOrUpdateCategoryInput,
+  CategoryOutputDto,
+} from "@/services/category/dto";
+import IResponseWithPagination from "@/services/responseWithPaginationDto";
 
 class CategoryService {
   public async CreateCategory(
     input: ICreateOrUpdateCategoryInput
-  ): Promise<ICategoryOutput> {
+  ): Promise<CategoryOutputDto> {
     const response = await http.post("api/category", input);
     return response.data.result;
   }
 
-  public async GetCategory(id: string): Promise<ICategoryOutput> {
+  public async UpdateCategory(
+    input: ICreateOrUpdateCategoryInput
+  ): Promise<CategoryOutputDto> {
+    const response = await http.patch("api/category", input);
+    return response.data.result;
+  }
+
+  public async DeleteCategory(id: string): Promise<CategoryOutputDto> {
+    const response = await http.delete(`api/category/${id}`);
+    return response.data.result;
+  }
+
+  public async GetCategory(id: string): Promise<CategoryOutputDto> {
     const response = await http.get(`api/category/${id}`);
+    return response.data.result;
+  }
+
+  public async GetCategories(
+    pageNumber: number,
+    pageSize: number
+  ): Promise<IResponseWithPagination<CategoryOutputDto>> {
+    const response = await http.get("api/categories", {
+      params: { pageSize, pageNumber },
+    });
     return response.data.result;
   }
 }

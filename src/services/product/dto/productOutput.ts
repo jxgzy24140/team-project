@@ -1,4 +1,4 @@
-export interface ICreateOrUpdateProductOutput {
+export interface IProductOutput {
   productId: number;
   categoryId: number;
   productName: string;

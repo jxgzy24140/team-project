@@ -15,6 +15,11 @@ class AccountService {
     const response = await http.post("api/auth/register", registerInput);
     return response.data.result;
   }
+
+  public async getUser(id: any): Promise<UserOutputDto> {
+    const response = await http.post("api/user/register");
+    return response.data.result;
+  }
 }
 
 export default new AccountService();

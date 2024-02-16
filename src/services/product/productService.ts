@@ -20,12 +20,12 @@ class ProductService {
     return response.data.result;
   }
 
-  public async DeleteProduct(id: string): Promise<ProductOutputDto> {
+  public async DeleteProduct(id: number): Promise<ProductOutputDto> {
     const response = await http.delete(`api/category/${id}`);
     return response.data.result;
   }
 
-  public async GetProduct(id: string): Promise<ProductOutputDto> {
+  public async GetProduct(id: number): Promise<ProductOutputDto> {
     const response = await http.get(`api/category/${id}`);
     return response.data.result;
   }

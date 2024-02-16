@@ -34,7 +34,7 @@ const Header = () => {
   };
   return (
     <>
-      <Layout.Header className="bg-white opacity-85 container">
+      <Layout.Header className="bg-white opacity-85 container min-w-full">
         <Row>
           <Col span={12}>
             <Row>

@@ -1,4 +1,4 @@
-import { ICreateProductOrderDetailInput } from "./createproductOrderDetailInput";
+import { ICreateProductOrderDetailInput } from "@/services/order/dto/createProductOrderDetailInput";
 
 export interface ICreateOrderInput {
   customerId: number;

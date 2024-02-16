@@ -14,7 +14,7 @@ const Dropdown = (props: IProps, ref: any) => {
   return (
     <Col
       ref={ref}
-      className="w-100 flex px-12 py-6 menu-list"
+      className="w-100 flex px-12 py-6 menu-list z-50"
       style={{ backgroundColor: "white", opacity: 0.7 }}
     >
       <Row className="w-100 flex">

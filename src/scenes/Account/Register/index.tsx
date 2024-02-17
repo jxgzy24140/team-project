@@ -1,8 +1,8 @@
 import { inject, observer } from "mobx-react";
 import Stores from "@/stores/storeIdentifier";
-import { Button, Col, Input, Row, Form } from "antd";
+import { Button, Col, Input, Form, Radio, Upload } from "antd";
 import { PRIMARY_COLOR } from "@/utils/constant";
-import Icon from "@/components/Layout/Icon";
+import { PlusOutlined } from "@ant-design/icons";
 
 interface IProps {}
 const Register = inject(Stores.ProductStore)(
@@ -13,11 +13,32 @@ const Register = inject(Stores.ProductStore)(
           <div className="flex justify-center items-center text-3xl">
             Đăng kí
           </div>
-          <Row>
-            <Input className="mt-2" placeholder="Tên đăng nhập/Email" />
-            <Input className="mt-2" placeholder="Mật khẩu" />
-            <Input className="mt-2" placeholder="Mật khẩu" />
-          </Row>
+          <div className="flex flex-col">
+            <div>
+              <Input className="w-[174px] mt-2 mr-2" placeholder="Họ" />
+              <Input className="w-[182px] mt-2" placeholder="Tên" />
+            </div>
+            <Input className="w-[364px] mt-2" placeholder="Địa chỉ email" />
+            <Input className="w-[364px] mt-2" placeholder="Điện thoại" />
+            <div className="flex mt-2 items-center">
+              <div className="mr-2">Giới tính: </div>
+              <Radio.Group>
+                <Radio value="">Nam</Radio>
+                <Radio value="">Nữ</Radio>
+                <Radio value="">Khác</Radio>
+              </Radio.Group>
+            </div>
+            <div className="flex mt-2 items-center">
+              <div className="mr-2">Hình đại diện:</div>
+              <Upload>
+                <button className="p-3 rounded-[10px] bg-[#ccc]" type="button">
+                  <PlusOutlined />
+                  <div className="mt-2">Tải hình</div>
+                </button>
+              </Upload>
+            </div>
+          </div>
+
           <Button
             htmlType="submit"
             className="flex justify-center items-center text-slate-950 font-light mt-2 w-full"
@@ -28,44 +49,6 @@ const Register = inject(Stores.ProductStore)(
           <div className="mt-2">
             Bạn đã có tài khoản?
             <a className="text-[#1677ff]"> Đăng nhập ngay</a>
-          </div>
-          <div className="flex justify-center items-center mt-6 mb-1">
-            Hoặc đăng nhập sử dụng
-          </div>
-          <div className="flex justify-center items-center">
-            <Icon
-              img={
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/2023_Facebook_icon.svg/2048px-2023_Facebook_icon.svg.png"
-              }
-              outerStyles={{
-                backgroundColor: "transparent",
-                justifyContent: "center",
-              }}
-              contentStyles={{ borderRadius: "5px" }}
-              color={PRIMARY_COLOR}
-            />
-            <Icon
-              img={
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png"
-              }
-              outerStyles={{
-                backgroundColor: "transparent",
-                justifyContent: "center",
-              }}
-              contentStyles={{ borderRadius: "5px" }}
-              color={PRIMARY_COLOR}
-            />
-            <Icon
-              img={
-                "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
-              }
-              outerStyles={{
-                backgroundColor: "transparent",
-                justifyContent: "center",
-              }}
-              contentStyles={{ borderRadius: "5px" }}
-              color={PRIMARY_COLOR}
-            />
           </div>
         </Form>
       </Col>

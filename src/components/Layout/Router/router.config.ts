@@ -8,6 +8,10 @@ export const userLayout: any = [
     path: "/register",
     component: lazy(() => import("@/scenes/Account/Register")),
   },
+  {
+    path: "/admin",
+    component: lazy(() => import("@/scenes/Admin")),
+  },
 ];
 
 export const appLayout: any = [

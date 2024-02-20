@@ -1,5 +1,5 @@
 export default interface IResponseWithPagination<T> {
-  result: T | T[];
+  items: T[];
   total: number;
   pageSize: number;
   currentPage: number;

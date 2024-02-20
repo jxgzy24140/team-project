@@ -8,7 +8,7 @@ import { headerMenuDropdown } from "@/utils/appConfig";
 import Dropdown from "./Dropdown";
 import "@/components/Layout/Header/index.css";
 
-const Header = () => {
+export const UserHeaderLayout = () => {
   const menuRef: any = useRef(null);
   const onShowMenu = () => {
     const menuList: any = document.querySelector(".menu-list");
@@ -105,5 +105,3 @@ const Header = () => {
     </>
   );
 };
-
-export default Header;

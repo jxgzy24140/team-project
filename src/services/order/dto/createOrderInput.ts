@@ -7,7 +7,6 @@ export interface ICreateOrderInput {
   amount: number;
   shippingType: number;
   shippingFee: number;
-  createdDate: number;
   statusId: number;
   products: ICreateProductOrderDetailInput[];
 }

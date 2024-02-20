@@ -1,6 +1,5 @@
-import LoginModel from "@/models/account/loginModel";
 import accountService from "@/services/account/accountService";
-import type { UserOutputDto } from "@/services/account/dto";
+import type { ILoginInput, UserOutputDto } from "@/services/account/dto";
 import { action, observable } from "mobx";
 
 class AuthenticationStore {
@@ -13,10 +12,20 @@ class AuthenticationStore {
   }
 
   @action
-  public async login(input: LoginModel): Promise<UserOutputDto> {
+  public async login(input: ILoginInput): Promise<any> {
     this.isLoading = true;
     var result = await accountService.login(input);
-    return result;
+    if (result) {
+      localStorage.setItem("accessToken", result.accessToken);
+    }
+  }
+
+  @action
+  async getProfile(token: string): Promise<any> {
+    var response = await accountService.getProfile(token);
+    if (response) {
+      this.userProfile = response;
+    }
   }
 }
 export default AuthenticationStore;

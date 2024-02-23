@@ -11,7 +11,7 @@ const AdminDashboardLayout = () => {
       </Col>
       <Col span={20}>
         <Row className="flex-col">
-          <Col style={{ border: "1px solid yellow" }}>
+          <Col>
             <AdminHeaderLayout />
           </Col>
           <Col style={{ height: "calc(100vh - 40px)" }}>

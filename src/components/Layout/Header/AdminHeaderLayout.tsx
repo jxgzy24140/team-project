@@ -7,9 +7,9 @@ import { faBell, faMessage } from "@fortawesome/free-solid-svg-icons";
 
 export const AdminHeaderLayout = () => {
   return (
-    <Layout.Header className="bg-white py-4 opacity-85 container w-full min-w-full flex flex-row justify-between">
+    <Layout.Header className="bg-white py-4 opacity-85 container w-full min-w-full h-full flex flex-row justify-between">
       {/* Phần Search */}
-      <Col span={12}>
+      <Col span={12} className="flex items-center">
         {/* Button bị background transparent */}
         {/* <Search placeholder="input search text" enterButton /> */}
         <Form className="flex">

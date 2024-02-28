@@ -1,6 +1,5 @@
 import { lazy } from "react";
-
-export const appLayout: any = [
+export const userLayout: any = [
   {
     path: "/login",
     component: lazy(() => import("@/scenes/Account/Login")),
@@ -9,11 +8,15 @@ export const appLayout: any = [
     path: "/register",
     component: lazy(() => import("@/scenes/Account/Register")),
   },
+  {
+    path: "/home",
+    component: lazy(() => import("@/scenes/Admin")),
+  },
 ];
 
-export const adminLayout: any = [
+export const appLayout: any = [
   {
-    path: "/dashboard",
-    component: lazy(() => import("@/scenes/Admin")),
+    path: "/home",
+    component: lazy(() => import("@/scenes/Account/Register")),
   },
 ];

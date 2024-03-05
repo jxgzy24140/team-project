@@ -10,7 +10,11 @@ export const userLayout: any = [
   },
   {
     path: "/home",
-    component: lazy(() => import("@/scenes/Admin")),
+    component: lazy(() => import("@/scenes/Admin/Home")),
+  },
+  {
+    path: "/account",
+    component: lazy(() => import("@/scenes/Admin/Account")),
   },
 ];
 

@@ -9,18 +9,24 @@ const { Content } = Layout;
 const AdminDashboardLayout = () => {
   return (
     <Layout className="w-full h-screen max-h-screen flex flex-row ">
+      {/* Sidebar của trang Admin */}
       <Col span={4}>
         <Sidebar />
       </Col>
+
+      {/* Header và Content của trang Admin */}
       <Col span={20}>
         <Row className="flex-col">
+          {/* Header của trang Admin */}
           <Col>
             <AdminHeaderLayout />
           </Col>
+
+          {/* Content của trang Admin */}
           <Col style={{ height: "calc(100vh - 40px)" }}>
             <Content
               className="h-full min-h-full max-h-full"
-              style={{ minHeight: "unset" }}
+              style={{ minHeight: "unset", backgroundColor: "#f1f5f9" }}
             >
               <Suspense fallback={<div>Loading...</div>}>
                 <Routes>

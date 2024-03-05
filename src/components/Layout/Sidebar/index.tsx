@@ -3,8 +3,9 @@ import Stores from "@/stores/storeIdentifier";
 import { Col } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCaretDown,
   faCookie,
+  faHouse,
+  faParachuteBox,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -25,15 +26,28 @@ const Sidebar = inject(Stores.ProductStore)(
         <div className="py-4 px-6 mt-9">
           <h3 className="mb-4 ml-4 text-sm font-medium text-gray-500">MENU</h3>
           <ul className="mb-6 flex flex-col">
-            {/* Account */}
+            {/* Home Page */}
             <li className="mb-1.5">
               <a className="flex items-center rounded-sm px-4 py-2 font-medium text-gray-200 duration-300 ease-in-out hover:bg-gray-700 bg-gray-700">
                 <span className="flex items-center">
-                  <FontAwesomeIcon className="mr-[10px]" icon={faUser} />
-                  Account
+                  <FontAwesomeIcon
+                    className="mr-[10px] size-[14px]"
+                    icon={faHouse}
+                  />
+                  Home Page
                 </span>
-                <span className="ml-auto">
-                  <FontAwesomeIcon icon={faCaretDown} />
+              </a>
+            </li>
+
+            {/* Account */}
+            <li className="mb-1.5">
+              <a className="flex items-center rounded-sm px-4 py-2 font-medium text-gray-200 duration-300 ease-in-out hover:bg-gray-700">
+                <span className="flex items-center">
+                  <FontAwesomeIcon
+                    className="mr-[10px] size-[14px]"
+                    icon={faUser}
+                  />
+                  Account
                 </span>
               </a>
             </li>
@@ -43,11 +57,24 @@ const Sidebar = inject(Stores.ProductStore)(
               <a className="flex items-center rounded-sm px-4 py-2 font-medium text-gray-200 duration-300 ease-in-out hover:bg-gray-700">
                 <span className="flex items-center">
                   {/* Thay icon rõ hơn ? */}
-                  <FontAwesomeIcon className="mr-[10px]" icon={faCookie} />
+                  <FontAwesomeIcon
+                    className="mr-[10px] size-[14px]"
+                    icon={faCookie}
+                  />
                   Product
                 </span>
-                <span className="ml-auto">
-                  <FontAwesomeIcon icon={faCaretDown} />
+              </a>
+            </li>
+
+            {/* Orders */}
+            <li className="mb-1.5">
+              <a className="flex items-center rounded-sm px-4 py-2 font-medium text-gray-200 duration-300 ease-in-out hover:bg-gray-700">
+                <span className="flex items-center">
+                  <FontAwesomeIcon
+                    className="mr-[10px] size-[14px]"
+                    icon={faParachuteBox}
+                  />
+                  Orders
                 </span>
               </a>
             </li>

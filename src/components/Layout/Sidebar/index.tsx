@@ -3,6 +3,7 @@ import Stores from "@/stores/storeIdentifier";
 import { Col } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faAngleDown,
   faCookie,
   faHouse,
   faParachuteBox,
@@ -42,14 +43,35 @@ const Sidebar = inject(Stores.ProductStore)(
             {/* Account */}
             <li className="mb-1.5">
               <a className="flex items-center rounded-sm px-4 py-2 font-medium text-gray-200 duration-300 ease-in-out hover:bg-gray-700">
-                <span className="flex items-center">
+                <span className="flex items-center mr-4">
                   <FontAwesomeIcon
                     className="mr-[10px] size-[14px]"
                     icon={faUser}
                   />
                   Account
                 </span>
+                <span className="flex items-center ml-auto">
+                  <FontAwesomeIcon icon={faAngleDown} />
+                </span>
               </a>
+
+              {/* Phần con của Account */}
+              <div>
+                <ul className="mb-[22px] mt-4 flex flex-col gap-2.5 pl-6">
+                  {/* User Account */}
+                  <li>
+                    <a className="relative flex items-center gap-2.5 rounded-md px-4 font-medium text-gray-400 duration-300 ease-in-out hover:text-white">
+                      User Accounts
+                    </a>
+                  </li>
+                  {/* Admin Account */}
+                  <li>
+                    <a className="relative flex items-center gap-2.5 rounded-md px-4 font-medium text-gray-400 duration-300 ease-in-out hover:text-white">
+                      Admin Accounts
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </li>
 
             {/* Product */}

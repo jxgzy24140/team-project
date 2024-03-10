@@ -1,51 +1,74 @@
 import { inject, observer } from "mobx-react";
 import Stores from "@/stores/storeIdentifier";
-import { Button, Col, Input, Form, Radio, Upload } from "antd";
+import { Button, Col, Input, Form, Radio } from "antd";
 import { PRIMARY_COLOR } from "@/utils/constant";
-import { PlusOutlined } from "@ant-design/icons";
+
+type FieldType = {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+
+  password?: string;
+  remember?: string;
+};
 
 interface IProps {}
 const Register = inject(Stores.ProductStore)(
   observer((props: IProps) => {
     return (
+      // Bản test
       <Col className="w-full h-full flex justify-center items-center">
         <Form>
-          <div className="flex justify-center items-center text-3xl">
-            Đăng kí
+          <div className="flex justify-center items-center text-3xl mb-6">
+            Đăng ký
           </div>
-          <div className="flex flex-col">
-            <div>
-              <Input className="w-[174px] mt-2 mr-2" placeholder="Họ" />
-              <Input className="w-[182px] mt-2" placeholder="Tên" />
-            </div>
-            <Input className="w-[364px] mt-2" placeholder="Địa chỉ email" />
-            <Input className="w-[364px] mt-2" placeholder="Điện thoại" />
-            <div className="flex mt-2 items-center">
-              <div className="mr-2">Giới tính: </div>
-              <Radio.Group>
-                <Radio value="">Nam</Radio>
-                <Radio value="">Nữ</Radio>
-                <Radio value="">Khác</Radio>
-              </Radio.Group>
-            </div>
-            <div className="flex mt-2 items-center">
-              <div className="mr-2">Hình đại diện:</div>
-              <Upload>
-                <button className="p-3 rounded-[10px] bg-[#ccc]" type="button">
-                  <PlusOutlined />
-                  <div className="mt-2">Tải hình</div>
-                </button>
-              </Upload>
-            </div>
+          <div className="flex">
+            <Form.Item<FieldType>
+              label=""
+              name="firstName"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập Họ",
+                },
+              ]}
+            >
+              <Input className="w-[174px] mr-2" placeholder="Họ" />
+            </Form.Item>
+            <Form.Item>
+              <Input className="w-[182px]" placeholder="Tên" />
+            </Form.Item>
           </div>
-
-          <Button
-            htmlType="submit"
-            className="flex justify-center items-center text-slate-950 font-light mt-2 w-full"
-            style={{ backgroundColor: PRIMARY_COLOR }}
+          <Form.Item>
+            <Input className="" placeholder="Địa chỉ Email" />
+          </Form.Item>
+          <Form.Item>
+            <Input className="" placeholder="Điện thoại" />
+          </Form.Item>
+          <Form.Item<FieldType>
+            label=""
+            name="password"
+            rules={[{ required: true, message: "Vui lòng nhập mật khẩu!" }]}
           >
-            Đăng kí
-          </Button>
+            <Input.Password placeholder="Mật khẩu" />
+          </Form.Item>
+          <Form.Item label="Giới tính">
+            <Radio.Group>
+              <Radio value="nam">Nam</Radio>
+              <Radio value="nữ">Nữ</Radio>
+              <Radio value="khác">Khác</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="flex justify-center items-center text-slate-950 font-light mt-2 w-full"
+              style={{ backgroundColor: PRIMARY_COLOR }}
+            >
+              Đăng ký
+            </Button>
+          </Form.Item>
           <div className="mt-2">
             Bạn đã có tài khoản?
             <a className="text-[#1677ff]"> Đăng nhập ngay</a>

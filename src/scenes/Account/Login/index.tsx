@@ -1,37 +1,67 @@
 import { inject, observer } from "mobx-react";
 import Stores from "@/stores/storeIdentifier";
-import { Button, Checkbox, Col, Input, Row, Form } from "antd";
+import { Button, Checkbox, Col, Input, Form } from "antd";
 import { PRIMARY_COLOR } from "@/utils/constant";
 import Icon from "@/components/Layout/Icon";
+
+type FieldType = {
+  email?: string;
+  password?: string;
+  remember?: string;
+};
 
 interface IProps {}
 const Login = inject(Stores.ProductStore)(
   observer((props: IProps) => {
     return (
+      // Bản test
       <Col className="w-full h-full flex justify-center items-center">
         <Form>
-          <div className="flex justify-center items-center text-3xl">
+          <div className="flex justify-center items-center text-3xl mb-6">
             Đăng nhập
           </div>
-          <Input className="mt-2" placeholder="Tên đăng nhập/Email" />
-          <Input className="mt-2" placeholder="Mật khẩu" />
-          <Row className="items-center mt-2">
-            <Checkbox className="mr-2" />
-            <div>Ghi nhớ mật khẩu</div>
-            <a className="flex justify-end ml-auto text-[#1677ff]">
-              Quên mật khẩu
-            </a>
-          </Row>
-          <Button
-            htmlType="submit"
-            className="flex justify-center items-center text-slate-950 font-light mt-2 w-full"
-            style={{ backgroundColor: PRIMARY_COLOR }}
+          <Form.Item<FieldType>
+            label=""
+            name="email"
+            className="w-[364px]"
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng nhập địa chỉ email!",
+              },
+            ]}
           >
-            Đăng nhập
-          </Button>
+            <Input placeholder="Địa chỉ Email" />
+          </Form.Item>
+          <Form.Item<FieldType>
+            label=""
+            name="password"
+            rules={[{ required: true, message: "Vui lòng nhập mật khẩu!" }]}
+          >
+            <Input.Password placeholder="Mật khẩu" />
+          </Form.Item>
+          <Form.Item<FieldType> name="remember" valuePropName="checked">
+            <div className="flex items-center">
+              {/* Lỗi chưa auto checked */}
+              <Checkbox>Ghi nhớ mật khẩu</Checkbox>
+              <a className="flex justify-end ml-auto text-[#1677ff]">
+                Quên mật khẩu
+              </a>
+            </div>
+          </Form.Item>
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="flex justify-center items-center text-slate-950 font-light mt-2 w-full"
+              style={{ backgroundColor: PRIMARY_COLOR }}
+            >
+              Đăng nhập
+            </Button>
+          </Form.Item>
           <div className="mt-2">
             Bạn chưa có tài khoản?
-            <a className="text-[#1677ff]"> Đăng kí ngay</a>
+            <a className="text-[#1677ff]"> Đăng ký ngay</a>
           </div>
           <div className="flex justify-center items-center mt-6 mb-1">
             Hoặc đăng nhập sử dụng

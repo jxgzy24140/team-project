@@ -4,13 +4,13 @@ import { Route, Routes } from "react-router-dom";
 import { appLayout } from "@/components/Layout/Router/router.config";
 import ProtectedRoute from "@/components/Layout/Router/ProtectedRoute";
 import Footer from "@/components/Layout/Footer";
-import Header from "@/components/Layout/Header";
+import { UserHeaderLayout } from "@/components/Layout/Header";
 
 const { Content } = Layout;
 const AppLayout = () => {
   return (
     <Layout className="w-full h-full min-h-screen overflow-y-scroll">
-      <Header />
+      <UserHeaderLayout />
       <Content className="h-full" style={{ minHeight: "unset" }}>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>

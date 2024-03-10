@@ -17,16 +17,16 @@ export const userLayout: any = [
     component: lazy(() => import("@/scenes/Admin/Account/UserAccount")),
   },
   {
-    path: "/useredit",
-    component: lazy(() => import("@/scenes/Admin/Edit/UserEdit")),
-  },
-  {
     path: "/adminlist",
     component: lazy(() => import("@/scenes/Admin/Account/AdminAccount")),
   },
   {
     path: "/product",
     component: lazy(() => import("@/scenes/Admin/Product")),
+  },
+  {
+    path: "/productedit",
+    component: lazy(() => import("@/scenes/Admin/Edit")),
   },
 ];
 

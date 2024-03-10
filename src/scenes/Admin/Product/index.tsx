@@ -17,6 +17,10 @@ interface DataType {
 
 const columns: TableProps<DataType>["columns"] = [
   {
+    title: "#",
+    render: (_, record, index) => <p> {index}</p>,
+  },
+  {
     title: "Category Id",
     dataIndex: "CategoryId",
     key: "CategoryId",

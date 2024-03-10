@@ -1,8 +1,9 @@
 import withRouter from "@/components/Layout/Router/withRouter";
-import { Col, Space, Table } from "antd";
+import { Col, Select, Space, Table } from "antd";
 import type { TableProps } from "antd";
 import React from "react";
 
+// Kiểu dữ liệu
 interface DataType {
   key: string;
   firstName: string;
@@ -16,7 +17,18 @@ interface DataType {
   updatedDate: Date;
 }
 
+// Lựa chọn của mục Active
+const options = [
+  { value: true, label: "Active" },
+  { value: false, label: "Inactive" },
+];
+
+// Cấu trúc columns của table
 const columns: TableProps<DataType>["columns"] = [
+  {
+    title: "#",
+    render: (_, record, index) => <p> {index}</p>,
+  },
   {
     title: "First Name",
     dataIndex: "firstName",
@@ -46,7 +58,7 @@ const columns: TableProps<DataType>["columns"] = [
     title: "Active",
     dataIndex: "active",
     key: "active",
-    render: (text) => (text ? "True" : "False"),
+    render: (_, record) => <Select defaultValue={true} options={options} />,
   },
   {
     title: "Avatar",
@@ -83,13 +95,13 @@ const columns: TableProps<DataType>["columns"] = [
     key: "action",
     render: (_, record) => (
       <Space size="middle">
-        <a>Edit</a>
         <a className="text-red-500">Delete</a>
       </Space>
     ),
   },
 ];
 
+// Dummy Data
 const data: DataType[] = [
   {
     key: "1",
@@ -101,8 +113,8 @@ const data: DataType[] = [
     active: true,
     avatar:
       "https://i.pinimg.com/736x/35/81/95/358195f63181ad8eb974465c4899ee2a.jpg",
-    createdDate: new Date("2024-03-05"), // Sample date
-    updatedDate: new Date("2024-03-05"), // Sample date
+    createdDate: new Date("2024-03-05"),
+    updatedDate: new Date("2024-03-05"),
   },
   {
     key: "2",
@@ -114,8 +126,8 @@ const data: DataType[] = [
     active: false,
     avatar:
       "https://i.pinimg.com/736x/35/81/95/358195f63181ad8eb974465c4899ee2a.jpg",
-    createdDate: new Date("2024-02-20"), // Sample date
-    updatedDate: new Date("2024-03-02"), // Sample date
+    createdDate: new Date("2024-02-20"),
+    updatedDate: new Date("2024-03-02"),
   },
   {
     key: "3",
@@ -127,8 +139,8 @@ const data: DataType[] = [
     active: true,
     avatar:
       "https://i.pinimg.com/736x/35/81/95/358195f63181ad8eb974465c4899ee2a.jpg",
-    createdDate: new Date("2024-01-15"), // Sample date
-    updatedDate: new Date("2024-03-06"), // Sample date
+    createdDate: new Date("2024-01-15"),
+    updatedDate: new Date("2024-03-06"),
   },
   {
     key: "4",
@@ -140,8 +152,8 @@ const data: DataType[] = [
     active: false,
     avatar:
       "https://i.pinimg.com/736x/35/81/95/358195f63181ad8eb974465c4899ee2a.jpg",
-    createdDate: new Date("2023-12-10"), // Sample date
-    updatedDate: new Date("2024-02-25"), // Sample date
+    createdDate: new Date("2023-12-10"),
+    updatedDate: new Date("2024-02-25"),
   },
   {
     key: "5",
@@ -153,8 +165,8 @@ const data: DataType[] = [
     active: true,
     avatar:
       "https://i.pinimg.com/736x/35/81/95/358195f63181ad8eb974465c4899ee2a.jpg",
-    createdDate: new Date("2023-11-05"), // Sample date
-    updatedDate: new Date("2024-03-01"), // Sample date
+    createdDate: new Date("2023-11-05"),
+    updatedDate: new Date("2024-03-01"),
   },
   {
     key: "6",
@@ -166,8 +178,8 @@ const data: DataType[] = [
     active: false,
     avatar:
       "https://i.pinimg.com/736x/35/81/95/358195f63181ad8eb974465c4899ee2a.jpg",
-    createdDate: new Date("2023-10-01"), // Sample date
-    updatedDate: new Date("2024-02-18"), // Sample date
+    createdDate: new Date("2023-10-01"),
+    updatedDate: new Date("2024-02-18"),
   },
   {
     key: "7",
@@ -179,8 +191,8 @@ const data: DataType[] = [
     active: true,
     avatar:
       "https://i.pinimg.com/736x/35/81/95/358195f63181ad8eb974465c4899ee2a.jpg",
-    createdDate: new Date("2023-09-15"), // Sample date
-    updatedDate: new Date("2024-02-10"), // Sample date
+    createdDate: new Date("2023-09-15"),
+    updatedDate: new Date("2024-02-10"),
   },
   {
     key: "8",
@@ -192,14 +204,14 @@ const data: DataType[] = [
     active: false,
     avatar:
       "https://i.pinimg.com/736x/35/81/95/358195f63181ad8eb974465c4899ee2a.jpg",
-    createdDate: new Date("2023-08-20"), // Sample
+    createdDate: new Date("2023-08-20"),
     updatedDate: new Date("2024-03-12"),
   },
 ];
 
 const UserAccount = () => {
   return (
-    <Col className="mx-auto min-h-full h-full md:p-6 2xl:p-10">
+    <Col className="mx-auto min-h-full h-full">
       <Table columns={columns} dataSource={data} pagination={{ pageSize: 5 }} />
     </Col>
   );

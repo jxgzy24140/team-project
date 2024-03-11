@@ -11,7 +11,7 @@ const AppLayout = () => {
   return (
     <Layout className="w-full h-full min-h-screen overflow-y-scroll">
       <UserHeaderLayout />
-      <Content className="h-full" style={{ minHeight: "unset" }}>
+      <Content className="h-full min-h-full" style={{ minHeight: "unset" }}>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             {appLayout.map((route: any, key: any) => {

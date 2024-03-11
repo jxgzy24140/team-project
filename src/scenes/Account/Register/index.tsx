@@ -78,5 +78,4 @@ const Register = inject(Stores.ProductStore)(
     );
   })
 );
-
-export default Register;
+export default withRouter(Register);

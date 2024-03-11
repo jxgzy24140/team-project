@@ -1,16 +1,16 @@
 export interface ILoginOutput {
-  UserId: number;
-  FirstName: string;
-  LastName: string;
-  Email: string;
-  PhoneNumber: number;
-  Gender: boolean;
-  Active: boolean;
-  Verify: boolean;
-  Avatar: string;
-  RoleId: number;
-  CreatedDate: Date;
-  UpdatedDate: Date;
-  DeletedDate: Date;
-  DeletedUserId: number;
+  userId: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: number;
+  gender: boolean;
+  active: boolean;
+  verify: boolean;
+  avatar: string;
+  roleId: number;
+  createdDate: Date;
+  updatedDate: Date;
+  deletedDate: Date;
+  deletedUserId: number;
 }

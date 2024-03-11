@@ -10,7 +10,8 @@ import {
   ICreateOrUpdatePaymentMethodInput,
   PaymentMethodOutputDto,
 } from "@/services/order/dto";
-import IResponseWithPagination from "../responseWithPaginationDto";
+
+import IResponseWithPagination from "@/services/responseWithPaginationDto";
 
 class OrderService {
   // Order
@@ -154,4 +155,4 @@ class OrderService {
   }
 }
 
-export default OrderService;
+export default new OrderService();

@@ -1,3 +1,10 @@
+import categoryService from "@/services/category/categoryService";
+import type { ICreateOrUpdateCategoryInput } from "@/services/category/dto";
+import { action, observable } from "mobx";
+
+class CategoryStore {
+  @observable categories!: any;
+  @observable category!: any;
 import { action, observable } from "mobx";
 import categoryService from "@/services/category/categoryService";
 import type {
@@ -20,6 +27,14 @@ class CategoryStore {
   @action
   async getAll(pageNumber: number, pageSize: number) {
     const response = await categoryService.GetCategories(pageNumber, pageSize);
+    this.categories.items = response.result;
+  }
+
+  @action
+  async update(input: ICreateOrUpdateCategoryInput) {
+    const response = await categoryService.UpdateCategory(input);
+    if (response) {
+      this.categories.map((item: any) => {
     this.categories.items = response.items;
   }
 
@@ -50,6 +65,9 @@ class CategoryStore {
   async delete(id: any) {
     const response = await categoryService.DeleteCategory(id);
     if (response) {
+      this.category = null;
+    }
+  }
       this.editCategory = null;
     }
   }

@@ -32,6 +32,7 @@ export const UserHeaderLayout = () => {
     menuList.style.removeProperty("visibility");
     menuList.style.removeProperty("opacity");
   };
+
   return (
     <>
       <Layout.Header className="bg-white opacity-85 container min-w-full">

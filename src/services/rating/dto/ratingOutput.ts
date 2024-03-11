@@ -1,3 +1,4 @@
+
 export interface IRatingOutput {
   RatingId: number;
   Stars: number;

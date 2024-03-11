@@ -19,6 +19,8 @@ class AccountService {
     return response.data.result;
   }
 
+  public async getUser(id: any): Promise<UserOutputDto> {
+    const response = await http.post("api/user/register");
   async changePassword(input: IChangeUserPassword): Promise<UserOutputDto> {
     const response = await http.put("api/auth/change-password", input);
     return response.data.result;

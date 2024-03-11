@@ -14,6 +14,9 @@ class CategoryService {
   }
 
   public async UpdateCategory(
+    input: ICreateOrUpdateCategoryInput
+  ): Promise<CategoryOutputDto> {
+    const response = await http.patch("api/category", input);
     id: any,
     input: ICreateOrUpdateCategoryInput
   ): Promise<CategoryOutputDto> {

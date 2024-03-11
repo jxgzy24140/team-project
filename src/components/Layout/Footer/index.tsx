@@ -16,7 +16,6 @@ const Footer = () => {
       style={{
         width: "100%",
         backgroundColor: "#000000",
-        border: "1px solid red",
         opacity: 0.85,
       }}
     >
@@ -94,7 +93,7 @@ const Footer = () => {
                   Cập nhật các tin tức mới nhất
                 </h3>
                 <p className="text-white">
-                  trở thành người đầu tiên biết về ưu đãi và các cập nhật mới
+                  Trở thành người đầu tiên biết về ưu đãi và các cập nhật mới
                   nhất.
                 </p>
                 <Form>

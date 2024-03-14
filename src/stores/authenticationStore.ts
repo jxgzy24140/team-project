@@ -1,30 +1,39 @@
-import accountService from "@/services/account/accountService";
 import type { ILoginInput, UserOutputDto } from "@/services/account/dto";
+import authService from "@/services/auth/authService";
 import { action, observable } from "mobx";
 
 class AuthenticationStore {
   @observable isLoading!: boolean;
-  @observable userProfile!: UserOutputDto;
+  @observable isAuthenticated: boolean = false;
+  @observable userProfile!: UserOutputDto | null;
 
-  get isAuthenticated(): boolean {
-    if (!localStorage.getItem("accessToken")) return false;
-    return true;
+  @action
+  getAuthenticatin() {
+    if (sessionStorage.getItem("accessToken"))
+      return (this.isAuthenticated = true);
+    return (this.isAuthenticated = false);
   }
 
   @action
   public async login(input: ILoginInput): Promise<any> {
     this.isLoading = true;
-    var result = await accountService.login(input);
-    if (result) {
-      localStorage.setItem("accessToken", result.accessToken);
+    const response = await authService.login(input);
+    if (response && response.success && response.data) {
+      sessionStorage.setItem("accessToken", response.data.accessToken);
+      this.userProfile = response.data.user;
+      this.isAuthenticated = true;
+      this.isLoading = false;
     }
   }
 
   @action
-  async getProfile(token: string): Promise<any> {
-    var response = await accountService.getProfile(token);
-    if (response) {
-      this.userProfile = response;
+  public async logout(): Promise<any> {
+    this.isLoading = true;
+    const response = await authService.logOut();
+    if (response && response.success && response.data) {
+      sessionStorage.removeItem("accessToken");
+      this.userProfile = null;
+      this.isAuthenticated = false;
     }
   }
 }

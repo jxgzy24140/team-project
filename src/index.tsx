@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import { Provider } from "mobx-react";
 import initializeStores from "./stores/storeInitializer";
+import "react-toastify/dist/ReactToastify.css";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );

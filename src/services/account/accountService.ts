@@ -1,58 +1,66 @@
 import http from "@/services/httpService";
-import { ILoginInput } from "@/services/account/dto/loginInput";
 import { IRegisterInput } from "@/services/account/dto/registerInput";
 import {
   IChangeUserPassword,
-  IRegisterOutput,
   UserOutputDto,
   IUpdateUserInput,
+  IUpdateUserRoleAndActiveInputDto,
 } from "./dto";
+import { IHttpRequest } from "../httpRequestDto";
+import IResponseWithPagination from "../responseWithPaginationDto";
 
 class AccountService {
-  async login(loginInput: ILoginInput): Promise<any> {
-    const response = await http.post("api/auth/login", loginInput);
-    return response.data.result;
+  async createUser(
+    registerInput: IRegisterInput
+  ): Promise<IHttpRequest<UserOutputDto>> {
+    const response = await http.post("users", registerInput);
+    return response.data;
   }
 
-  async register(registerInput: IRegisterInput): Promise<IRegisterOutput> {
-    const response = await http.post("api/auth/register", registerInput);
-    return response.data.result;
+  async updateUser(
+    input: IUpdateUserInput
+  ): Promise<IHttpRequest<UserOutputDto>> {
+    const response = await http.patch("users", input);
+    return response.data;
   }
 
-  public async getUser(id: any): Promise<UserOutputDto> {
-    const response = await http.post("api/user/register");
-  async changePassword(input: IChangeUserPassword): Promise<UserOutputDto> {
-    const response = await http.put("api/auth/change-password", input);
-    return response.data.result;
+  async deleteUser(id: any): Promise<IHttpRequest<UserOutputDto>> {
+    const response = await http.delete(`users/${id}`);
+    return response.data;
   }
 
-  async updateUser(input: IUpdateUserInput): Promise<UserOutputDto> {
-    const response = await http.patch("api/user", input);
-    return response.data.result;
-  }
-
-  async deleteUser(id: any): Promise<UserOutputDto> {
-    const response = await http.delete("api/user", { params: { userId: id } });
-    return response.data.result;
-  }
-
-  async getUsers(pageNumber: number, pageSize: number): Promise<UserOutputDto> {
-    const response = await http.get("api/users", {
+  async getUsers(
+    pageNumber: number,
+    pageSize: number
+  ): Promise<IHttpRequest<IResponseWithPagination<UserOutputDto>>> {
+    const response = await http.get("users", {
       params: { pageNumber, pageSize },
     });
-    return response.data.result;
+    return response.data;
   }
 
-  async getUser(id: any): Promise<UserOutputDto> {
-    const response = await http.get("api/user", { params: id });
-    return response.data.result;
+  async getUser(id: any): Promise<IHttpRequest<UserOutputDto>> {
+    const response = await http.get(`users/${id}`);
+    return response.data;
   }
 
-  async getProfile(accessToken: string): Promise<UserOutputDto> {
-    const response = await http.get("api/user/get-profilem", {
-      params: accessToken,
-    });
-    return response.data.result;
+  async updateRoleAndActive(
+    id: string,
+    input: IUpdateUserRoleAndActiveInputDto
+  ): Promise<IHttpRequest<UserOutputDto>> {
+    const response = await http.patch(
+      `users/update-user-role-active/${id}`,
+      input
+    );
+    return response.data;
+  }
+
+  async changePassword(
+    id: string,
+    input: IChangeUserPassword
+  ): Promise<IHttpRequest<UserOutputDto>> {
+    const response = await http.patch(`users/change-password/${id}`, input);
+    return response.data;
   }
 }
 

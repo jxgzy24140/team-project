@@ -4,44 +4,46 @@ import {
   CategoryOutputDto,
 } from "@/services/category/dto";
 import IResponseWithPagination from "@/services/responseWithPaginationDto";
+import { IHttpRequest } from "../httpRequestDto";
 
 class CategoryService {
-  public async CreateCategory(
+  public async createCategory(
     input: ICreateOrUpdateCategoryInput
-  ): Promise<CategoryOutputDto> {
-    const response = await http.post("api/category", input);
-    return response.data.result;
+  ): Promise<IHttpRequest<CategoryOutputDto>> {
+    const response = await http.post("categories", input);
+    return response.data;
   }
 
-  public async UpdateCategory(
+  public async updateCategory(
+    id: number,
     input: ICreateOrUpdateCategoryInput
-  ): Promise<CategoryOutputDto> {
-    const response = await http.patch("api/category", input);
-    id: any,
-    input: ICreateOrUpdateCategoryInput
-  ): Promise<CategoryOutputDto> {
-    const response = await http.patch("api/category");
-    return response.data.result;
+  ): Promise<IHttpRequest<CategoryOutputDto>> {
+    const response = await http.patch(`api/categories/${id}`, input);
+    return response.data;
   }
 
-  public async DeleteCategory(id: string): Promise<CategoryOutputDto> {
-    const response = await http.delete(`api/category/${id}`);
-    return response.data.result;
+  public async deleteCategory(
+    id: number
+  ): Promise<IHttpRequest<CategoryOutputDto>> {
+    const response = await http.delete(`categories/${id}`);
+    return response.data;
   }
 
-  public async GetCategory(id: string): Promise<CategoryOutputDto> {
-    const response = await http.get(`api/category/${id}`);
-    return response.data.result;
+  public async getCategory(
+    id: number
+  ): Promise<IHttpRequest<CategoryOutputDto>> {
+    const response = await http.get(`categories/${id}`);
+    return response.data;
   }
 
-  public async GetCategories(
+  public async getCategories(
     pageNumber: number,
     pageSize: number
-  ): Promise<IResponseWithPagination<CategoryOutputDto>> {
-    const response = await http.get("api/categories", {
+  ): Promise<IHttpRequest<IResponseWithPagination<CategoryOutputDto>>> {
+    const response = await http.get("categories", {
       params: { pageSize, pageNumber },
     });
-    return response.data.result;
+    return response.data;
   }
 }
 

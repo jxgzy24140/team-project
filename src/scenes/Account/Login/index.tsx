@@ -3,6 +3,8 @@ import Stores from "@/stores/storeIdentifier";
 import { Button, Checkbox, Col, Input, Form } from "antd";
 import { PRIMARY_COLOR } from "@/utils/constant";
 import Icon from "@/components/Layout/Icon";
+import withRouter from "@/components/Layout/Router/withRouter";
+import AuthenticationStore from "@/stores/authenticationStore";
 
 type FieldType = {
   email?: string;
@@ -10,13 +12,20 @@ type FieldType = {
   remember?: string;
 };
 
-interface IProps {}
-const Login = inject(Stores.ProductStore)(
+interface IProps {
+  navigate: any;
+  authenticationStore: AuthenticationStore;
+}
+const Login = inject(Stores.AuthenticationStore)(
   observer((props: IProps) => {
+    const { navigate, authenticationStore } = props;
+    if (authenticationStore.isAuthenticated) return navigate("/home");
+    const onFinish = async (values: any) => {
+      await authenticationStore.login(values);
+    };
     return (
-      // Bản test
       <Col className="w-full h-full flex justify-center items-center">
-        <Form>
+        <Form onFinish={onFinish}>
           <div className="flex justify-center items-center text-3xl mb-6">
             Đăng nhập
           </div>
@@ -107,4 +116,4 @@ const Login = inject(Stores.ProductStore)(
   })
 );
 
-export default Login;
+export default withRouter(Login);

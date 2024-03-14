@@ -5,39 +5,42 @@ import {
   RatingOutputDto,
 } from "@/services/rating/dto";
 import IResponseWithPagination from "@/services/responseWithPaginationDto";
+import { IHttpRequest } from "../httpRequestDto";
 class RatingService {
-  public async CreateRating(
+  public async createRating(
     input: ICreateRatingInput
-  ): Promise<RatingOutputDto> {
-    const response = await http.post("api/rating", input);
-    return response.data.result;
+  ): Promise<IHttpRequest<RatingOutputDto>> {
+    const response = await http.post("ratings", input);
+    return response.data;
   }
 
-  public async UpdateRating(
+  public async updateRating(
     input: IUpdateRatingInput
-  ): Promise<RatingOutputDto> {
-    const response = await http.patch("api/rating", input);
-    return response.data.result;
+  ): Promise<IHttpRequest<RatingOutputDto>> {
+    const response = await http.patch("ratings", input);
+    return response.data;
   }
 
-  public async DeleteRating(id: string): Promise<RatingOutputDto> {
-    const response = await http.delete(`api/rating/${id}`);
-    return response.data.result;
+  public async deleteRating(
+    id: string
+  ): Promise<IHttpRequest<RatingOutputDto>> {
+    const response = await http.delete(`ratings/${id}`);
+    return response.data;
   }
 
-  public async GetRating(id: string): Promise<RatingOutputDto> {
-    const response = await http.get(`api/rating/${id}`);
-    return response.data.result;
+  public async getRating(id: string): Promise<IHttpRequest<RatingOutputDto>> {
+    const response = await http.get(`ratings/${id}`);
+    return response.data;
   }
 
-  public async GetRatings(
+  public async getRatings(
     pageNumber: number,
     pageSize: number
-  ): Promise<IResponseWithPagination<RatingOutputDto>> {
-    const response = await http.get("api/ratings", {
+  ): Promise<IHttpRequest<IResponseWithPagination<RatingOutputDto>>> {
+    const response = await http.get("ratings", {
       params: { pageSize, pageNumber },
     });
-    return response.data.result;
+    return response.data;
   }
 }
 

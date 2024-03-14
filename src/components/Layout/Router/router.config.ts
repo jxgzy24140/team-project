@@ -1,38 +1,33 @@
 import { lazy } from "react";
-export const userLayout: any = [
-  {
-    path: "/login",
-    component: lazy(() => import("@/scenes/Account/Login")),
+export const adminLayouts: any = {
+  accounts: {
+    path: "accounts",
+    component: lazy(() => import("@/scenes/Admin/Account")),
   },
-  {
-    path: "/register",
-    component: lazy(() => import("@/scenes/Account/Register")),
-  },
-  {
-    path: "/home",
-    component: lazy(() => import("@/scenes/Admin/Home")),
-  },
-  {
-    path: "/userlist",
-    component: lazy(() => import("@/scenes/Admin/Account/UserAccount")),
-  },
-  {
-    path: "/adminlist",
-    component: lazy(() => import("@/scenes/Admin/Account/AdminAccount")),
-  },
-  {
-    path: "/product",
+  products: {
+    path: "products",
     component: lazy(() => import("@/scenes/Admin/Product")),
   },
-  {
-    path: "/productedit",
-    component: lazy(() => import("@/scenes/Admin/Edit")),
+  product: {
+    path: "products/:id",
+    component: lazy(() => import("@/scenes/Admin/Product/Edit")),
   },
-];
+};
 
-export const appLayout: any = [
-  {
-    path: "/home",
+export const appLayouts: any = {
+  home: {
+    path: "home",
+    component: lazy(() => import("@/scenes/Home")),
+  },
+};
+
+export const authLayouts: any = {
+  login: {
+    path: "login",
+    component: lazy(() => import("@/scenes/Account/Login")),
+  },
+  register: {
+    path: "register",
     component: lazy(() => import("@/scenes/Account/Register")),
   },
-];
+};

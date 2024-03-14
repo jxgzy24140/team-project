@@ -5,39 +5,43 @@ import {
   IUpdateProductInput,
   ProductOutputDto,
 } from "@/services/product/dto";
+import { IHttpRequest } from "../httpRequestDto";
 class ProductService {
-  public async CreateProduct(
+  public async createProduct(
     input: ICreateProductInput
-  ): Promise<ProductOutputDto> {
-    const response = await http.post("api/category", input);
-    return response.data.result;
+  ): Promise<IHttpRequest<ProductOutputDto>> {
+    const response = await http.post("products", input);
+    return response.data;
   }
 
-  public async UpdateProduct(
+  public async updateProduct(
+    id: number,
     input: IUpdateProductInput
-  ): Promise<ProductOutputDto> {
-    const response = await http.patch("api/category", input);
-    return response.data.result;
+  ): Promise<IHttpRequest<ProductOutputDto>> {
+    const response = await http.patch(`products/${id}`, input);
+    return response.data;
   }
 
-  public async DeleteProduct(id: number): Promise<ProductOutputDto> {
-    const response = await http.delete(`api/category/${id}`);
-    return response.data.result;
+  public async deleteProduct(
+    id: number
+  ): Promise<IHttpRequest<ProductOutputDto>> {
+    const response = await http.delete(`products/${id}`);
+    return response.data;
   }
 
-  public async GetProduct(id: number): Promise<ProductOutputDto> {
-    const response = await http.get(`api/category/${id}`);
-    return response.data.result;
+  public async getProduct(id: number): Promise<IHttpRequest<ProductOutputDto>> {
+    const response = await http.get(`products/${id}`);
+    return response.data;
   }
 
-  public async GetProducts(
+  public async getProducts(
     pageNumber: number,
     pageSize: number
-  ): Promise<IResponseWithPagination<ProductOutputDto>> {
-    const response = await http.get("api/categories", {
+  ): Promise<IHttpRequest<IResponseWithPagination<ProductOutputDto>>> {
+    const response = await http.get("products", {
       params: { pageSize, pageNumber },
     });
-    return response.data.result;
+    return response.data;
   }
 }
 

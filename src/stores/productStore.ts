@@ -1,4 +1,4 @@
-import { action, observable } from "mobx";
+import { action, makeAutoObservable, observable } from "mobx";
 import type {
   ICreateProductInput,
   IUpdateProductInput,
@@ -11,37 +11,43 @@ class ProductStore {
   @observable products!: IResponseWithPagination<ProductOutputDto>;
   @observable editProduct: ICreateProductInput | IUpdateProductInput | null =
     null;
-
+  constructor() {
+    makeAutoObservable(this);
+  }
   @action
   async get(id: number) {
-    const response = await productService.GetProduct(id);
-    if (response) {
-      this.editProduct = response;
+    const response = await productService.getProduct(id);
+    if (response && response.success && response.data) {
+      this.editProduct = response.data;
     }
   }
 
   @action
   async getAll(pageNumber: number, pageSize: number) {
-    const response = await productService.GetProducts(pageNumber, pageSize);
-    this.products.items = response.items;
+    const response = await productService.getProducts(pageNumber, pageSize);
+    if (response && response.success && response.data) {
+      this.products = response.data;
+    }
   }
 
   @action
   async create(input: ICreateProductInput) {
-    const response = await productService.CreateProduct(input);
+    const response = await productService.createProduct(input);
     if (response) {
       this.editProduct = null;
       this.products.items.map((product: any) => {
-        if (product.productId == response.productId) product = response;
+        if (response.data && product.productId == response.data.productId)
+          product = response;
         return product;
       });
     }
   }
 
   @action
-  async update(input: IUpdateProductInput) {
-    const response = await productService.UpdateProduct(input);
-    if (response) {
+  async update(id: number, input: IUpdateProductInput) {
+    const response = await productService.updateProduct(id, input);
+    if (response && response.data) {
+      this.editProduct = null;
       this.products.items.map((item: any) => {
         if (item.productId == input.productId) item = response;
         return item;
@@ -51,8 +57,8 @@ class ProductStore {
 
   @action
   async delete(id: number) {
-    const response = await productService.DeleteProduct(id);
-    if (response) {
+    const response = await productService.deleteProduct(id);
+    if (response && response.data) {
       this.editProduct = null;
       this.products.items.map((product: any) => {
         if (product.productId != id) return product;

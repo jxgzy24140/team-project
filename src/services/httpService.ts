@@ -8,9 +8,9 @@ const http = axios.create({
 
 http.interceptors.request.use(
   function (config) {
-    if (localStorage.getItem("accessToken")) {
+    if (sessionStorage.getItem("accessToken")) {
       config.headers["Authorization"] =
-        "Bearer " + localStorage.getItem("accessToken");
+        "Bearer " + sessionStorage.getItem("accessToken");
     }
     return config;
   },
@@ -24,8 +24,8 @@ http.interceptors.response.use(
     return response;
   },
   (res) => {
-    console.log(res?.response?.status);
-    window.location.href = "/logout";
+    // console.log(res?.response?.status);
+    // window.location.href = "/logout";
   }
 );
 

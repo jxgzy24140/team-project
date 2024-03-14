@@ -5,40 +5,43 @@ import {
 } from "@/services/payment/dto";
 import IResponseWithPagination from "@/services/responseWithPaginationDto";
 import http from "@/services/httpService";
+import { IHttpRequest } from "../httpRequestDto";
 
 class PaymentService {
-  public async CreatePayment(
+  public async createPayment(
     input: ICreatePaymentInput
-  ): Promise<PaymentOutputDto> {
-    const response = await http.post("api/payment", input);
-    return response.data.result;
+  ): Promise<IHttpRequest<PaymentOutputDto>> {
+    const response = await http.post("payments", input);
+    return response.data;
   }
 
-  public async UpdatePayment(
+  public async updatePayment(
     input: IUpdatePaymentInput
-  ): Promise<PaymentOutputDto> {
-    const response = await http.patch("api/payment", input);
-    return response.data.result;
+  ): Promise<IHttpRequest<PaymentOutputDto>> {
+    const response = await http.patch("payments", input);
+    return response.data;
   }
 
-  public async DeletePayment(id: string): Promise<PaymentOutputDto> {
-    const response = await http.delete(`api/payment/${id}`);
-    return response.data.result;
+  public async deletePayment(
+    id: string
+  ): Promise<IHttpRequest<PaymentOutputDto>> {
+    const response = await http.delete(`payments/${id}`);
+    return response.data;
   }
 
-  public async GetPayment(id: string): Promise<PaymentOutputDto> {
-    const response = await http.get(`api/payment/${id}`);
-    return response.data.result;
+  public async getPayment(id: string): Promise<IHttpRequest<PaymentOutputDto>> {
+    const response = await http.get(`payments/${id}`);
+    return response.data;
   }
 
-  public async GetPayments(
+  public async getPayments(
     pageNumber: number,
     pageSize: number
-  ): Promise<IResponseWithPagination<PaymentOutputDto>> {
-    const response = await http.get("api/payments", {
+  ): Promise<IHttpRequest<IResponseWithPagination<PaymentOutputDto>>> {
+    const response = await http.get("payments", {
       params: { pageSize, pageNumber },
     });
-    return response.data.result;
+    return response.data;
   }
 }
 

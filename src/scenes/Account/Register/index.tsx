@@ -2,6 +2,7 @@ import { inject, observer } from "mobx-react";
 import Stores from "@/stores/storeIdentifier";
 import { Button, Col, Input, Form, Radio } from "antd";
 import { PRIMARY_COLOR } from "@/utils/constant";
+import withRouter from "@/components/Layout/Router/withRouter";
 
 type FieldType = {
   firstName?: string;

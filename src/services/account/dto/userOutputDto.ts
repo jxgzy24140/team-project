@@ -1,5 +1,5 @@
-export interface ILoginOutput {
-  userId: number;
+export interface IUserOutputDto {
+  userId: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -7,10 +7,11 @@ export interface ILoginOutput {
   gender: boolean;
   active: boolean;
   verify: boolean;
-  avatar: string;
+  avatar?: string;
   roleId: number;
+  roleName: string;
   createdDate: Date;
-  updatedDate: Date;
-  deletedDate: Date;
-  deletedUserId: number;
+  updatedDate?: Date;
+  deletedDate?: Date;
+  deletedUserId?: string;
 }

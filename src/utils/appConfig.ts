@@ -1,4 +1,4 @@
-export const REQUEST_BASE_URL = "http://localhost:8000";
+export const REQUEST_BASE_URL = "https://localhost:7063/api/v1/";
 
 export const footerIntroduce = [
   {

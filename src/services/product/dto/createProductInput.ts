@@ -2,7 +2,7 @@ export interface ICreateProductInput {
   categoryId: number;
   productName: string;
   description: string;
-  image: string;
+  imageFile: string;
   price: number;
   discount: number;
   quantity: number;

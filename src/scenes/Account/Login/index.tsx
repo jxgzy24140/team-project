@@ -5,6 +5,8 @@ import { PRIMARY_COLOR } from "@/utils/constant";
 import Icon from "@/components/Layout/Icon";
 import withRouter from "@/components/Layout/Router/withRouter";
 import AuthenticationStore from "@/stores/authenticationStore";
+import { Link } from "react-router-dom";
+import { authLayouts } from "@/components/Layout/Router/router.config";
 
 type FieldType = {
   email?: string;
@@ -19,6 +21,7 @@ interface IProps {
 const Login = inject(Stores.AuthenticationStore)(
   observer((props: IProps) => {
     const { navigate, authenticationStore } = props;
+
     if (authenticationStore.isAuthenticated) return navigate("/home");
     const onFinish = async (values: any) => {
       await authenticationStore.login(values);
@@ -70,7 +73,13 @@ const Login = inject(Stores.AuthenticationStore)(
           </Form.Item>
           <div className="mt-2">
             Bạn chưa có tài khoản?
-            <a className="text-[#1677ff]"> Đăng ký ngay</a>
+            <Link
+              className="text-[#1677ff]"
+              to={`/auth/${authLayouts.register.path}`}
+            >
+              {" "}
+              Đăng ký ngay
+            </Link>
           </div>
           <div className="flex justify-center items-center mt-6 mb-1">
             Hoặc đăng nhập sử dụng

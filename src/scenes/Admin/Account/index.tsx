@@ -16,7 +16,7 @@ import { inject, observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
 import { localeData, weekdays } from "moment";
 import dayjs from "dayjs";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 dayjs.extend(weekdays);
 dayjs.extend(localeData);
 
@@ -239,7 +239,6 @@ const Account = inject(Stores.AccountStore)(
             </Form.Item>
           </Form>
         </Modal>
-        <ToastContainer />
       </Col>
     );
   })

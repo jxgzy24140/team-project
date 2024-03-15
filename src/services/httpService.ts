@@ -1,5 +1,7 @@
 import { REQUEST_BASE_URL } from "@/utils/appConfig";
 import axios from "axios";
+import AuthenticationStore from "@/stores/authenticationStore";
+import authService from "./auth/authService";
 
 const http = axios.create({
   baseURL: REQUEST_BASE_URL,
@@ -19,14 +21,30 @@ http.interceptors.request.use(
   }
 );
 
-http.interceptors.response.use(
+axios.interceptors.response.use(
   (response) => {
     return response;
   },
-  (res) => {
-    // console.log(res?.response?.status);
-    // window.location.href = "/logout";
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const newAccessToken = await authService.refreshToken();
+        if (newAccessToken && newAccessToken.success && newAccessToken.data) {
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+          return axios(originalRequest);
+        } else {
+          throw new Error("Refresh token is not valid");
+        }
+      } catch (refreshError) {
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
   }
 );
-
 export default http;

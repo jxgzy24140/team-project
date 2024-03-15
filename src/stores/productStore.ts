@@ -9,13 +9,16 @@ import type IResponseWithPagination from "@/services/responseWithPaginationDto";
 
 class ProductStore {
   @observable products!: IResponseWithPagination<ProductOutputDto>;
-  @observable editProduct: ICreateProductInput | IUpdateProductInput | null =
-    null;
+  @observable editProduct:
+    | ICreateProductInput
+    | IUpdateProductInput
+    | ProductOutputDto
+    | any = null;
   constructor() {
     makeAutoObservable(this);
   }
   @action
-  async get(id: number) {
+  async get(id: number): Promise<any> {
     const response = await productService.getProduct(id);
     if (response && response.success && response.data) {
       this.editProduct = response.data;
@@ -48,11 +51,13 @@ class ProductStore {
     const response = await productService.updateProduct(id, input);
     if (response && response.data) {
       this.editProduct = null;
-      this.products.items.map((item: any) => {
+      this.products.items = this.products.items.map((item: any) => {
         if (item.productId == input.productId) item = response;
         return item;
       });
+      return true;
     }
+    return false;
   }
 
   @action
@@ -60,10 +65,13 @@ class ProductStore {
     const response = await productService.deleteProduct(id);
     if (response && response.data) {
       this.editProduct = null;
-      this.products.items.map((product: any) => {
+      this.products.items = this.products.items.map((product: any) => {
         if (product.productId != id) return product;
       });
+      this.products.total = this.products.total - 1;
+      return true;
     }
+    return false;
   }
 
   @action

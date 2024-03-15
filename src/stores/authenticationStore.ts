@@ -1,39 +1,62 @@
 import type { ILoginInput, UserOutputDto } from "@/services/account/dto";
 import authService from "@/services/auth/authService";
-import { action, observable } from "mobx";
+import { action, makeAutoObservable, observable } from "mobx";
 
 class AuthenticationStore {
-  @observable isLoading!: boolean;
   @observable isAuthenticated: boolean = false;
   @observable userProfile!: UserOutputDto | null;
 
+  constructor() {
+    makeAutoObservable(this);
+  }
+
   @action
-  getAuthenticatin() {
-    if (sessionStorage.getItem("accessToken"))
-      return (this.isAuthenticated = true);
-    return (this.isAuthenticated = false);
+  public async getAuthentication() {
+    if (sessionStorage.getItem("accessToken")) {
+      const response = await authService.getCurrentLoginInformation();
+      if (response.success && response.data) {
+        this.isAuthenticated = true;
+        this.userProfile = response.data;
+      }
+    } else {
+      this.isAuthenticated = false;
+      this.userProfile = null;
+    }
   }
 
   @action
   public async login(input: ILoginInput): Promise<any> {
-    this.isLoading = true;
     const response = await authService.login(input);
     if (response && response.success && response.data) {
       sessionStorage.setItem("accessToken", response.data.accessToken);
-      this.userProfile = response.data.user;
-      this.isAuthenticated = true;
-      this.isLoading = false;
+      response.data.user.roleId == 1
+        ? (window.location.href = "/home")
+        : (window.location.href = "/admin");
+    }
+    if (response && !response.success) {
+      sessionStorage.removeItem("accessToken");
+      this.isAuthenticated = false;
+      this.userProfile = null;
     }
   }
 
   @action
   public async logout(): Promise<any> {
-    this.isLoading = true;
-    const response = await authService.logOut();
-    if (response && response.success && response.data) {
-      sessionStorage.removeItem("accessToken");
-      this.userProfile = null;
+    sessionStorage.removeItem("accessToken");
+    await authService.logOut();
+    this.userProfile = null;
+    this.isAuthenticated = false;
+  }
+
+  @action
+  async refreshToken(): Promise<any> {
+    const result = await authService.refreshToken();
+    if (result && result.success && result.data) {
+      this.isAuthenticated = true;
+      return result.data;
+    } else {
       this.isAuthenticated = false;
+      return null;
     }
   }
 }

@@ -5,6 +5,7 @@ import { appLayouts } from "@/components/Layout/Router/router.config";
 import ProtectedRoute from "@/components/Layout/Router/ProtectedRoute";
 import Footer from "@/components/Layout/Footer";
 import { UserHeaderLayout } from "@/components/Layout/Header";
+import { ToastContainer } from "react-toastify";
 
 const { Content } = Layout;
 const AppLayout = () => {
@@ -30,6 +31,7 @@ const AppLayout = () => {
             })}
           </Routes>
         </Suspense>
+        <ToastContainer />
       </Content>
       <Footer />
     </Layout>

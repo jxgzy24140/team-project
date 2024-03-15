@@ -3,12 +3,16 @@ import type {
   CategoryOutputDto,
   ICreateOrUpdateCategoryInput,
 } from "@/services/category/dto";
-import { action, observable } from "mobx";
+import { action, makeAutoObservable, observable } from "mobx";
 import type IResponseWithPagination from "@/services/responseWithPaginationDto";
 
 class CategoryStore {
   @observable categories!: IResponseWithPagination<CategoryOutputDto>;
   @observable editCategory: ICreateOrUpdateCategoryInput | null = null;
+
+  constructor() {
+    makeAutoObservable(this);
+  }
 
   @action
   async get(id: any) {

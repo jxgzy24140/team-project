@@ -6,7 +6,7 @@ import { Option } from "antd/es/mentions";
 import { inject, observer } from "mobx-react";
 import Stores from "@/stores/storeIdentifier";
 import ProductStore from "@/stores/productStore";
-import { useParams } from "react-router-dom";
+import CategoryStore from "@/stores/categoryStore";
 
 // Layout cho Form
 const formItemLayout = {
@@ -25,24 +25,33 @@ interface IProps {
   params: any;
   location: any;
   productStore: ProductStore;
+  categoryStore: CategoryStore;
 }
 
-const Edit = inject(Stores.ProductStore)(
+const Edit = inject(
+  Stores.ProductStore,
+  Stores.CategoryStore
+)(
   observer((props: IProps) => {
-    const { navigate, productStore, params } = props;
-    const { id } = useParams();
+    const { navigate, productStore, categoryStore, params } = props;
+    const { id } = params;
     const [form] = Form.useForm();
     useEffect(() => {
       getProduct(id);
     }, []);
 
-    const getProduct = async (id) => {
+    const getProduct = async (id: any) => {
       await productStore.get(id);
+      await categoryStore.getAll(1, 10);
       form.setFieldsValue(props.productStore.editProduct);
       form.setFieldValue(
         "inStock",
-        props.productStore.editProduct?.inStock == true ? "true" : "false"
+        productStore.editProduct?.inStock == true ? "true" : "false"
       );
+      if (productStore.editProduct && productStore.editProduct?.image) {
+        fileList[0].url = productStore.editProduct?.image as string;
+        fileList[0].name = productStore.editProduct?.image as string;
+      }
     };
 
     const [fileList, setFileList] = useState<any[]>([
@@ -50,13 +59,11 @@ const Edit = inject(Stores.ProductStore)(
         uid: "-1",
         name: "image.png",
         status: "done",
-        url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+        url: "",
       },
     ]);
 
     const onChange = (values: any) => {
-      console.log("values: ", values);
-
       if (values.file.status == "removed") setFileList([]);
       if (values.file.status == "uploading")
         setFileList([
@@ -90,8 +97,10 @@ const Edit = inject(Stores.ProductStore)(
     };
 
     const onFinish = async (values: any) => {
-      console.log("values: ", JSON.stringify(values));
-      console.log("image: ", JSON.stringify(fileList));
+      if (fileList[0]?.originFileObj) {
+        values.imageFile = fileList[0]?.originFileObj;
+      }
+      await productStore.update(values.productId, values);
     };
 
     return (
@@ -108,7 +117,9 @@ const Edit = inject(Stores.ProductStore)(
           variant="filled"
           style={{ maxWidth: 600 }}
         >
-          {/* Phần Product Name */}
+          <Form.Item name="productId" style={{ display: " none" }}>
+            <Input />
+          </Form.Item>
           <Form.Item
             label="Product Name"
             name="productName"
@@ -117,7 +128,23 @@ const Edit = inject(Stores.ProductStore)(
             <Input />
           </Form.Item>
 
-          {/* Phần Description */}
+          <Form.Item
+            label="Category"
+            name="categoryId"
+            rules={[{ required: true }]}
+          >
+            <Select>
+              {categoryStore?.categories?.items &&
+                categoryStore?.categories?.items.map((category: any) => {
+                  return (
+                    <Option value={category.categoryId}>
+                      {category.categoryName}
+                    </Option>
+                  );
+                })}
+            </Select>
+          </Form.Item>
+
           <Form.Item
             label="Description"
             name="description"
@@ -126,7 +153,6 @@ const Edit = inject(Stores.ProductStore)(
             <Input.TextArea />
           </Form.Item>
 
-          {/* Phần Upload hình ảnh (nên xem lại) */}
           <Form.Item label="Upload" valuePropName="fileList">
             <Upload
               action="/upload.do"
@@ -145,34 +171,40 @@ const Edit = inject(Stores.ProductStore)(
             </Upload>
           </Form.Item>
 
-          {/* Phần Price (nên làm thế này hay đưa thành Input bình thường) */}
           <Form.Item
             label="Price"
             name="price"
-            rules={[{ required: true, message: "Please input!" }]}
+            rules={[
+              { required: true, message: "Please input!" },
+              // { min: 1, message: "Giá tối thiểu là 1" },
+            ]}
           >
-            <InputNumber style={{ width: "100%" }} />
+            <InputNumber style={{ width: "100%" }} min={1} />
           </Form.Item>
 
-          {/* Phần Discount (tương tự trên) */}
           <Form.Item
             label="Discount"
             name="discount"
-            rules={[{ required: true, message: "Please input!" }]}
+            rules={[
+              { required: true, message: "Please input!" },
+              // { min: 0, message: "Giảm giá tối thiểu là 0%" },
+              // { max: 100, message: "Giảm giá tối đa là 100%" },
+            ]}
           >
-            <InputNumber style={{ width: "100%" }} />
+            <InputNumber style={{ width: "100%" }} min={0} max={100} />
           </Form.Item>
 
-          {/* Phần Quantity */}
           <Form.Item
             label="Quantity"
             name="quantity"
-            rules={[{ required: true, message: "Please input!" }]}
+            rules={[
+              { required: true, message: "Please input!" },
+              // { min: 0, message: "Số lượng tối thiểu là 0!" },
+            ]}
           >
-            <InputNumber style={{ width: "100%" }} />
+            <InputNumber style={{ width: "100%" }} min={0} />
           </Form.Item>
 
-          {/* Phần InStock */}
           <Form.Item
             name="inStock"
             label="In Stock"

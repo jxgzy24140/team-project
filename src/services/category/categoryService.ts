@@ -18,7 +18,7 @@ class CategoryService {
     id: number,
     input: ICreateOrUpdateCategoryInput
   ): Promise<IHttpRequest<CategoryOutputDto>> {
-    const response = await http.patch(`api/categories/${id}`, input);
+    const response = await http.patch(`categories/${id}`, input);
     return response.data;
   }
 

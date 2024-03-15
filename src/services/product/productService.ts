@@ -6,10 +6,24 @@ import {
   ProductOutputDto,
 } from "@/services/product/dto";
 import { IHttpRequest } from "../httpRequestDto";
+import { AxiosRequestConfig } from "axios";
 class ProductService {
   public async createProduct(
     input: ICreateProductInput
   ): Promise<IHttpRequest<ProductOutputDto>> {
+    if (input.imageFile) {
+      const formData = new FormData();
+      Object.keys(input).forEach((key) => {
+        formData.append(key, input[key]);
+      });
+      const config: AxiosRequestConfig = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      const response = await http.post("products", formData, config);
+      return response.data;
+    }
     const response = await http.post("products", input);
     return response.data;
   }
@@ -18,6 +32,29 @@ class ProductService {
     id: number,
     input: IUpdateProductInput
   ): Promise<IHttpRequest<ProductOutputDto>> {
+    if (input.imageFile) {
+      const formData = new FormData();
+      Object.keys(input).forEach((key) => {
+        formData.append(key, input[key]);
+      });
+
+      const config: AxiosRequestConfig = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      const response = await http.patch(`products/${id}`, formData, config);
+      // const response = await axios.patch(
+      //   `https://localhost:7063/api/v1/products/${formData.get("productId")}`,
+      //   formData,
+      //   {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //     },
+      //   }
+      // );
+      return response.data;
+    }
     const response = await http.patch(`products/${id}`, input);
     return response.data;
   }

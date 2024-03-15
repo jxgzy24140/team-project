@@ -9,11 +9,18 @@ class AuthService {
   }
 
   async logOut() {
-    const response = await http.post("auth/logout");
+    await http.post("auth/logout");
+  }
+
+  async refreshToken() {
+    const response = await http.post("auth/refresh-token");
     return response.data;
   }
 
-  async refreshToken() {}
+  async getCurrentLoginInformation() {
+    const response = await http.get("auth/get-current-login-info");
+    return response.data;
+  }
 }
 
 export default new AuthService();

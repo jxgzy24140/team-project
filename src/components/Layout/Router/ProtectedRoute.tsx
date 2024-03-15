@@ -1,10 +1,17 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import withRouter from "./withRouter";
+import { authLayouts } from "./router.config";
+import { inject } from "mobx-react";
+import Stores from "@/stores/storeIdentifier";
 
-const ProtectedRoute = ({ children }: any) => {
-  if (!sessionStorage.getItem("accessToken"))
-    return <Navigate to="/account/login" />;
-  return <>{children}</>;
-};
+const ProtectedRoute = inject(Stores.AuthenticationStore)(
+  ({ children, authenticationStore, navigate }: any) => {
+    useEffect(() => {
+      if (!sessionStorage.getItem("accessToken"))
+        navigate(`/auth/${authLayouts.login.path}`);
+    }, []);
+    return <>{children}</>;
+  }
+);
 
-export default ProtectedRoute;
+export default withRouter(ProtectedRoute);

@@ -3,7 +3,7 @@ export interface IUpdateProductInput {
   categoryId: number;
   productName?: string;
   description?: string;
-  image?: string;
+  imageFile?: any;
   price?: number;
   discount?: number;
   quantity?: number;

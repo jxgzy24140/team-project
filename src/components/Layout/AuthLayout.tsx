@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import { authLayouts } from "./Router/router.config";
 import Footer from "@/components/Layout/Footer";
 import { UserHeaderLayout } from "@/components/Layout/Header";
+import { ToastContainer } from "react-toastify";
 
 const UserLayout = () => {
   return (
@@ -25,6 +26,7 @@ const UserLayout = () => {
             })}
           </Routes>
         </Suspense>
+        <ToastContainer />
       </Content>
       <Footer />
     </Layout>

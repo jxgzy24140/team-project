@@ -5,6 +5,7 @@ import { adminLayouts } from "./Router/router.config";
 import Sidebar from "@/components/Layout/Sidebar";
 import { AdminHeaderLayout } from "@/components/Layout/Header";
 import AdminProtectedRoute from "@/components/Layout/Router/AdminProtectedRoute";
+import { ToastContainer } from "react-toastify";
 
 const { Content } = Layout;
 const AdminDashboardLayout = () => {
@@ -45,6 +46,7 @@ const AdminDashboardLayout = () => {
                   </Routes>
                 </Suspense>
               </div>
+              <ToastContainer />
             </Content>
           </Col>
         </Row>

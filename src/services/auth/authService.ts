@@ -9,7 +9,7 @@ class AuthService {
   }
 
   async logOut() {
-    await http.post("auth/logout");
+    await http.get("auth/logout");
   }
 
   async refreshToken() {

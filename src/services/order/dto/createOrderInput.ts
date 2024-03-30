@@ -1,12 +1,17 @@
 import { ICreateProductOrderDetailInput } from "@/services/order/dto/createProductOrderDetailInput";
 
 export interface ICreateOrderInput {
-  customerId: number;
-  paymentId: number;
-  paymentType: number;
+  userId: number;
+  receiveName: string;
+  phoneNumber: number;
+  email: string;
+  province: string;
+  district: string;
+  ward: string;
+  addressDetail: string;
   amount: number;
-  shippingType: number;
   shippingFee: number;
-  statusId: number;
+  paymentMethodId: number;
+  shippingMethodId: number;
   products: ICreateProductOrderDetailInput[];
 }

@@ -8,16 +8,16 @@ import IResponseWithPagination from "@/services/responseWithPaginationDto";
 import { IHttpRequest } from "../httpRequestDto";
 class RatingService {
   public async createRating(
-    input: ICreateRatingInput
+    input: ICreateRatingInput[]
   ): Promise<IHttpRequest<RatingOutputDto>> {
     const response = await http.post("ratings", input);
     return response.data;
   }
 
   public async updateRating(
-    input: IUpdateRatingInput
-  ): Promise<IHttpRequest<RatingOutputDto>> {
-    const response = await http.patch("ratings", input);
+    input: IUpdateRatingInput[]
+  ): Promise<IHttpRequest<RatingOutputDto[]>> {
+    const response = await http.put("ratings/update-order-rating", input);
     return response.data;
   }
 
@@ -33,13 +33,21 @@ class RatingService {
     return response.data;
   }
 
-  public async getRatings(
+  public async getRatingsForProduct(
+    id: number,
     pageNumber: number,
     pageSize: number
   ): Promise<IHttpRequest<IResponseWithPagination<RatingOutputDto>>> {
-    const response = await http.get("ratings", {
-      params: { pageSize, pageNumber },
+    const response = await http.get(`ratings/product/${id}`, {
+      params: { pageNumber, pageSize },
     });
+    return response.data;
+  }
+
+  public async getRatingsForOrder(
+    orderId: number
+  ): Promise<IHttpRequest<RatingOutputDto[]>> {
+    const response = await http.get(`ratings/order/${orderId}`);
     return response.data;
   }
 }

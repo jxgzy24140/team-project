@@ -1,6 +1,8 @@
 export interface ICreatePaymentInput {
   orderId: number;
-  customerId: string;
+  userId: string;
   amount: number;
-  paymentType: number;
+  paymentMethodId: number;
+  requestId: string;
+  transId: number;
 }

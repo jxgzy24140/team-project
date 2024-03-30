@@ -2,6 +2,7 @@ import http from "@/services/httpService";
 import IResponseWithPagination from "@/services/responseWithPaginationDto";
 import {
   ICreateProductInput,
+  IProductEs,
   IUpdateProductInput,
   ProductOutputDto,
 } from "@/services/product/dto";
@@ -32,30 +33,17 @@ class ProductService {
     id: number,
     input: IUpdateProductInput
   ): Promise<IHttpRequest<ProductOutputDto>> {
-    if (input.imageFile) {
-      const formData = new FormData();
-      Object.keys(input).forEach((key) => {
-        formData.append(key, input[key]);
-      });
+    const formData = new FormData();
+    Object.keys(input).forEach((key) => {
+      formData.append(key, input[key]);
+    });
 
-      const config: AxiosRequestConfig = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      const response = await http.patch(`products/${id}`, formData, config);
-      // const response = await axios.patch(
-      //   `https://localhost:7063/api/v1/products/${formData.get("productId")}`,
-      //   formData,
-      //   {
-      //     headers: {
-      //       "Content-Type": "multipart/form-data",
-      //     },
-      //   }
-      // );
-      return response.data;
-    }
-    const response = await http.patch(`products/${id}`, input);
+    const config: AxiosRequestConfig = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    const response = await http.patch(`products/${id}`, formData, config);
     return response.data;
   }
 
@@ -71,12 +59,60 @@ class ProductService {
     return response.data;
   }
 
+  public async getProductCatalog(
+    categoryName: string,
+    pageNumber: number,
+    pageSize: number,
+    scat?: string,
+    min?: string,
+    max?: string,
+    sort?: string
+  ): Promise<IHttpRequest<IResponseWithPagination<ProductOutputDto>>> {
+    let params = {};
+    if (pageNumber) params["page"] = pageNumber;
+    if (pageSize) params["size"] = pageSize;
+    if (scat) params["scat"] = scat;
+    if (min) params["min"] = min;
+    if (max) params["max"] = max;
+    if (sort) params["sort"] = sort;
+    const response = await http.get(
+      `products/product-catalog/${categoryName}`,
+      {
+        params: params,
+      }
+    );
+    return response.data;
+  }
+
   public async getProducts(
     pageNumber: number,
     pageSize: number
   ): Promise<IHttpRequest<IResponseWithPagination<ProductOutputDto>>> {
     const response = await http.get("products", {
       params: { pageSize, pageNumber },
+    });
+    return response.data;
+  }
+
+  public async getHomeProducts() {
+    const response = await http.get("products/get-home-products");
+    return response.data;
+  }
+
+  public async searchProduct(
+    keyword: any,
+    scat_id?: any,
+    min?: any,
+    max?: any,
+    sort?: any
+  ): Promise<IHttpRequest<IProductEs>> {
+    let params = { q: keyword };
+    if (min) params["min"] = min;
+    if (max) params["max"] = max;
+    if (scat_id) params["scat_id"] = scat_id;
+    if (sort) params["sort"] = sort;
+    const response = await http.get(`products/search`, {
+      params: params,
     });
     return response.data;
   }

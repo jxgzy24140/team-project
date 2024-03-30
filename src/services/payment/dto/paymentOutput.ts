@@ -1,9 +1,11 @@
 export interface IPaymentOutput {
   paymentId: number;
   orderId: number;
-  customerId: string;
+  transId: number;
+  userId: string;
   createdDate: Date;
   amount: number;
-  paymentType: number;
+  paymentMethodId: number;
+  paymentType: string;
   status: boolean;
 }

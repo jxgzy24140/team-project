@@ -1,7 +1,9 @@
 import { Col, Row } from "antd";
 import React, { forwardRef } from "react";
 import { Link } from "react-router-dom";
+import { appLayouts } from "../../Router/router.config";
 interface Items {
+  id: number;
   heading: string;
   children: any[];
 }
@@ -10,7 +12,7 @@ interface IProps {
   items: Items[];
 }
 
-const Dropdown = (props: IProps, ref: any) => {
+const MenuDropdown = (props: IProps, ref: any) => {
   return (
     <Col
       ref={ref}
@@ -24,15 +26,22 @@ const Dropdown = (props: IProps, ref: any) => {
               <Col className="px-2" key={index}>
                 <Link
                   className="text-black font-bold text-sm py-1 block my-link"
-                  to={""}
+                  to={`/${appLayouts.collection.path.replace(
+                    ":categoryName",
+                    item.heading.toLowerCase()
+                  )}`}
                 >
                   {item.heading}
                 </Link>
-                {item.children.map((child: any) => {
+                {item.children.map((child: any, index) => {
                   return (
                     <Link
+                      key={index}
                       className="text-gray-400 leading-none py-2 block my-link"
-                      to={""}
+                      to={`/${appLayouts.collection.path.replace(
+                        ":categoryName",
+                        item.heading.toLowerCase()
+                      )}?scat=${child.toLowerCase()}`}
                     >
                       {child}
                     </Link>
@@ -45,7 +54,10 @@ const Dropdown = (props: IProps, ref: any) => {
             <Col className="px-2" key={index}>
               <Link
                 className="text-black py-1 block my-link"
-                to={""}
+                to={`/${appLayouts.collection.path.replace(
+                  ":categoryName",
+                  item.heading.toLowerCase()
+                )}`}
                 style={{ textDecoration: "underline" }}
               >
                 {item.heading}
@@ -58,4 +70,4 @@ const Dropdown = (props: IProps, ref: any) => {
   );
 };
 
-export default forwardRef(Dropdown);
+export default forwardRef(MenuDropdown);

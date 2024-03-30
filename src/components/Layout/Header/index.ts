@@ -1,2 +1,2 @@
 export { AdminHeaderLayout } from "@/components/Layout/Header/AdminHeaderLayout";
-export { UserHeaderLayout } from "@/components/Layout/Header/UserHeaderLayout";
+export { default as UserHeaderLayout } from "@/components/Layout/Header/UserHeaderLayout";

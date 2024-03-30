@@ -7,6 +7,8 @@ import withRouter from "@/components/Layout/Router/withRouter";
 import AuthenticationStore from "@/stores/authenticationStore";
 import { Link } from "react-router-dom";
 import { authLayouts } from "@/components/Layout/Router/router.config";
+import { containsSpecialChar, startsWithNumber } from "@/utils/helpers";
+import { toast } from "react-toastify";
 
 type FieldType = {
   email?: string;
@@ -24,7 +26,34 @@ const Login = inject(Stores.AuthenticationStore)(
 
     if (authenticationStore.isAuthenticated) return navigate("/home");
     const onFinish = async (values: any) => {
-      await authenticationStore.login(values);
+      const { email, password } = values;
+
+      if (
+        email.length < 8 ||
+        email.length > 32 ||
+        // containsSpecialChar(email) ||
+        startsWithNumber(email) ||
+        email.includes(" ")
+      ) {
+        toast("Tên đăng nhập không hợp lệ!");
+      } else {
+        if (
+          // password.length < 8 ||
+          password.length > 32 ||
+          password.includes(" ") ||
+          containsSpecialChar(password)
+        ) {
+          toast("Mật khẩu không hợp lệ!");
+        } else {
+          const data = await authenticationStore.login(values);
+          if (!data) {
+            toast("Tên đăng nhập hoặc mật khẩu không chính xác!");
+          } else {
+            setTimeout(() => (window.location.href = "/home"), 2000);
+            toast("Đăng nhập thành công! Vui lòng đợi trong giây lát...");
+          }
+        }
+      }
     };
     return (
       <Col className="w-full h-full flex justify-center items-center">
@@ -32,7 +61,7 @@ const Login = inject(Stores.AuthenticationStore)(
           <div className="flex justify-center items-center text-3xl mb-6">
             Đăng nhập
           </div>
-          <Form.Item<FieldType>
+          <Form.Item
             label=""
             name="email"
             className="w-[364px]"
@@ -67,6 +96,7 @@ const Login = inject(Stores.AuthenticationStore)(
               htmlType="submit"
               className="flex justify-center items-center text-slate-950 font-light mt-2 w-full"
               style={{ backgroundColor: PRIMARY_COLOR }}
+              id="submit-btn"
             >
               Đăng nhập
             </Button>

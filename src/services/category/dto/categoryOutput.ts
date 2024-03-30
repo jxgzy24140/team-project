@@ -3,5 +3,4 @@ export interface ICategoryOutput {
   categoryName: string;
   createdDate: Date;
   updatedDate: Date;
-  deletedDate: Date;
 }

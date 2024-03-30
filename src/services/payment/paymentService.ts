@@ -6,12 +6,20 @@ import {
 import IResponseWithPagination from "@/services/responseWithPaginationDto";
 import http from "@/services/httpService";
 import { IHttpRequest } from "../httpRequestDto";
+import { ICreateMomoPaymentInput } from "./dto/createMomoPaymentInput";
 
 class PaymentService {
   public async createPayment(
     input: ICreatePaymentInput
   ): Promise<IHttpRequest<PaymentOutputDto>> {
     const response = await http.post("payments", input);
+    return response.data;
+  }
+
+  public async createMomoPayment(
+    input: ICreateMomoPaymentInput
+  ): Promise<IHttpRequest<PaymentOutputDto>> {
+    const response = await http.post("payments/pay-with-momo", input);
     return response.data;
   }
 
@@ -29,7 +37,7 @@ class PaymentService {
     return response.data;
   }
 
-  public async getPayment(id: string): Promise<IHttpRequest<PaymentOutputDto>> {
+  public async getPayment(id: number): Promise<IHttpRequest<PaymentOutputDto>> {
     const response = await http.get(`payments/${id}`);
     return response.data;
   }

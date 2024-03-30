@@ -1,4 +1,4 @@
 export interface IUpdateOrderInput {
-  orderId: number;
-  statusId: number;
+  id: number;
+  orderStatusId: number;
 }

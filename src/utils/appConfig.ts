@@ -57,50 +57,44 @@ export const footerContact = {
 
 export const headerMenuDropdown = [
   {
+    id: 0,
     heading: "Tất cả",
     children: [],
   },
+
   {
-    heading: "Xuân lên đi",
-    children: ["Xuân lên đi"],
+    id: 1,
+    heading: "Milwaukee",
+    children: ["Drill", "Impact Driver", "Hammer Drill"],
   },
   {
-    heading: "Cà phê",
-    children: [
-      "Cà phê hightlight",
-      "Cà phê Việt Name",
-      "Cà phê máy",
-      "Cold brew",
-    ],
+    id: 2,
+    heading: "Makita",
+    children: ["Drill", "Impact Driver", "Hammer Drill"],
   },
   {
-    heading: "Trà",
-    children: ["Trà trái cây", "Trà sữa Macchiato"],
+    id: 3,
+    heading: "Dewalt",
+    children: ["Drill", "Impact Driver", "Hammer Drill"],
   },
   {
-    heading: "Cloud",
-    children: ["CloudFee", "CloudTee Mochi"],
-  },
-  {
-    heading: "Hi-tea Healthy",
-    children: ["Hi-Tea Trà", "Hi-Tea Đá Tuyết"],
-  },
-  {
-    heading: "Trà xanh - Chocolate",
-    children: ["Trà xanh Tây Bắc", "Chocolate"],
-  },
-  {
-    heading: "Thức uống đá xay",
-    children: ["Đá xay Frosty"],
-  },
-  {
-    heading: "Bánh & Snack",
-    children: ["Bánh mặn", "Bánh ngọt", "Snack", "Bánh Panstry"],
-  },
-  {
-    heading: "Công thức",
-    children: ["Cà phê tại nhà", "Trà tại nhà"],
+    id: 4,
+    heading: "Accessories",
+    children: ["Drill", "Tắc kê"],
   },
 ];
 
-export const headerMenu = ["Cà phê", "Trà "];
+export const options = {
+  size: [
+    { id: 1, title: "Nhỏ", price: "0" },
+    { id: 2, title: "Vừa", price: "6.000" },
+    { id: 3, title: "Lớn", price: "10.000" },
+  ],
+  topping: [
+    { id: 1, title: "Kem Phô Mai Macchiato", price: "10.000" },
+    { id: 2, title: "Shot Espresso", price: "10.000" },
+    { id: 3, title: "Thạch Cà Phê", price: "10.000" },
+    { id: 4, title: "Trân Châu Trắng", price: "10.000" },
+    { id: 5, title: "Sốt Caramel", price: "10.000" },
+  ],
+};

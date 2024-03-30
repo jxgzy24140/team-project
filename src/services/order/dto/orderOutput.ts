@@ -1,15 +1,33 @@
 export interface IOrderOutput {
-  orderId: number;
-  customerId: number;
-  customerName: string;
-  paymentId: number;
-  paymentType: number;
-  paymentName: string;
+  id: number;
+  orderId: string;
+  userId: string;
+  receiveName: string;
+  phoneNumber: number;
+  province: string;
+  district: string;
+  ward: string;
+  addressDetail: string;
   amount: number;
-  shippingType: number;
-  shippingName: string;
+
+  shippingMethod: string;
+  shippingMethodId: number;
   shippingFee: number;
+
   createdDate: Date;
-  statusId: number;
-  statusName: string;
+  orderStatus: string;
+  orderStatusId: number;
+  paymentId: number | null;
+  paymentMethod: string;
+  products: IProductOrderDetail[];
+}
+
+interface IProductOrderDetail {
+  productId: number;
+  orderDetailId: number;
+  productName: string;
+  quantity: number;
+  price: number;
+  image: string;
+  isRated: boolean;
 }

@@ -62,6 +62,13 @@ class AccountService {
     const response = await http.patch(`users/change-password/${id}`, input);
     return response.data;
   }
+
+  async verifyAccount(id: string, secretKey: string): Promise<boolean> {
+    const response = await http.get(`users/verify`, {
+      params: { user_id: id, secret_key: secretKey },
+    });
+    return response.data;
+  }
 }
 
 export default new AccountService();

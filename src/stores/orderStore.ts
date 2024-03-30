@@ -1,4 +1,4 @@
-import { action, observable } from "mobx";
+import { action, makeAutoObservable, observable } from "mobx";
 import type IResponseWithPagination from "@/services/responseWithPaginationDto";
 import type {
   ICreateOrUpdatePaymentMethodInput,
@@ -10,9 +10,12 @@ import type {
   ShippingMethodOutputDto,
 } from "@/services/order/dto";
 import orderService from "@/services/order/orderService";
+import paymentService from "@/services/payment/paymentService";
+import { appLayouts } from "@/components/Layout/Router/router.config";
 
 class OrderStore {
   @observable orders!: IResponseWithPagination<OrderOutputDto>;
+  @observable order!: OrderOutputDto;
   @observable editOrder: ICreateOrderInput | OrderOutputDto | null = null;
   @observable
   shippingMethods!: IResponseWithPagination<ShippingMethodOutputDto>;
@@ -25,6 +28,10 @@ class OrderStore {
     | ICreateOrUpdatePaymentMethodInput
     | PaymentMethodOutputDto
     | null = null;
+  @observable shoppingCart: any[] = [];
+  constructor() {
+    makeAutoObservable(this);
+  }
 
   @action
   async getOrders(pageNumber: number, pageSize: number) {
@@ -38,18 +45,19 @@ class OrderStore {
   async getOrder(id: any) {
     const response = await orderService.getOrder(id);
     if (response && response.success && response.data) {
-      this.editOrder = response.data;
+      this.order = response.data;
     }
   }
 
   @action
-  async updateOrder(input: IUpdateOrderInput) {
-    const response = await orderService.updateOrder(input);
+  async updateOrder(id: number, input: IUpdateOrderInput) {
+    const response = await orderService.updateOrder(id, input);
+    console.log(response);
+
     if (response && response.success && response.data) {
       this.editOrder = null;
-      this.orders.items.map((item) => {
-        if (item.orderId == input.orderId && response.data)
-          item = response.data;
+      this.orders.items = this.orders?.items.map((item) => {
+        if (item.id == input.id && response.data) item = response.data;
         return item;
       });
     }
@@ -65,25 +73,121 @@ class OrderStore {
       });
     }
   }
+
   @action
-  createNewOrder() {
-    this.editOrder = {
-      customerId: 0,
-      paymentId: 0,
-      paymentType: 0,
-      amount: 0,
-      shippingType: 0,
-      shippingFee: 0,
-      statusId: 0,
-      products: [],
+  addToCart(input: any) {
+    const localCart = localStorage.getItem("cart");
+    const newItem = {
+      productId: input.productId,
+      productCode: input.productCode,
+      productName: input.productName,
+      quantity: input.quantity,
+      price: input.price,
     };
+
+    if (localCart) {
+      let parsedCart = JSON.parse(localCart);
+
+      const existingItem = parsedCart.find(
+        (item: any) => item.productId === input.productId
+      );
+
+      if (existingItem) {
+        existingItem.quantity += input.quantity;
+      } else {
+        parsedCart.push(newItem);
+      }
+
+      localStorage.setItem("cart", JSON.stringify(parsedCart));
+      this.shoppingCart = [parsedCart];
+      return;
+    } else {
+      localStorage.setItem("cart", JSON.stringify([newItem]));
+      this.shoppingCart = [newItem];
+    }
+  }
+
+  @action
+  editShoppingCart(productId: number, quantity?: number, type = "update") {
+    switch (type) {
+      case "update": {
+        this.shoppingCart = this.shoppingCart.map((item) => {
+          if (item.productId == productId && quantity) {
+            item.quantity = quantity;
+          }
+          return item;
+        });
+        localStorage.setItem("cart", JSON.stringify(this.shoppingCart));
+        return this.shoppingCart;
+      }
+      case "remove": {
+        this.shoppingCart = this.shoppingCart.filter(
+          (item) => item.productId != productId
+        );
+        localStorage.setItem("cart", JSON.stringify(this.shoppingCart));
+        return this.shoppingCart;
+      }
+      default: {
+        return;
+      }
+    }
+  }
+
+  getTotalShoppingCart() {
+    return this.shoppingCart.reduce(
+      (accumulator, item) => accumulator + item.price * item.quantity,
+      0
+    );
   }
 
   @action
   async createOrder(input: ICreateOrderInput) {
     const response = await orderService.createOrder(input);
-    if (response) {
-      this.editOrder = null;
+    if (response && response.data) {
+      const createdOrder = response.data;
+      this.editOrder = response.data;
+      if (input.paymentMethodId == 2) {
+        const momoMomoPaymentInput: any = {
+          orderId: response.data.orderId,
+          orderInfo: `Thanh toán đơn hàng #${response.data.orderId}`,
+          amount: response.data.amount,
+        };
+        const momoPaymentResult = await paymentService.createMomoPayment(
+          momoMomoPaymentInput
+        );
+        // if (momoPaymentResult) {
+        //   const payUrl = momoPaymentResult.message;
+        //   const orderId = this.getParameterByName(payUrl, "orderId");
+        //   const amount = this.getParameterByName(payUrl, "amount");
+        //   const transId = this.getParameterByName(payUrl, "transId");
+        //   const requestId = this.getParameterByName(payUrl, "requestId");
+        //   if (orderId && amount && requestId && transId) {
+        //     const createdPayment = await paymentService.createPayment({
+        //       orderId: Number(orderId),
+        //       userId: "",
+        //       amount: Number(amount),
+        //       paymentMethodId: 2,
+        //       requestId: requestId,
+        //       transId: Number(transId),
+        //     });
+        //     if (createdPayment) {
+        //       window.location.href = momoPaymentResult.message;
+        //     }
+        //   }
+        // }
+        if (momoPaymentResult) window.location.href = momoPaymentResult.message;
+      } else {
+        window.location.href = `/${appLayouts.payment.path}?orderId=${createdOrder.orderId}&amount=${createdOrder.amount}&resultCode=0&type=1`;
+      }
+    } else this.editOrder = null;
+  }
+
+  @action
+  getCart() {
+    const localCart = localStorage.getItem("cart");
+
+    if (localCart) {
+      this.shoppingCart = [...JSON.parse(localCart)];
     }
   }
 
@@ -162,7 +266,7 @@ class OrderStore {
   // }
 
   @action
-  async getPaymentMethods(pageNumber: number, pageSize: number) {
+  async getPaymentMethods() {
     const response = await orderService.getPaymentMethods();
     if (response && response.success && response.data) {
       this.paymentMethods = response.data;

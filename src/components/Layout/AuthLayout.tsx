@@ -11,14 +11,14 @@ const UserLayout = () => {
   return (
     <Layout className="w-full h-full min-h-screen overflow-y-scroll">
       <UserHeaderLayout />
-      <Content className="">
+      <Content className="h-full">
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             {Object.keys(authLayouts).map((key: any) => {
               const Component = authLayouts[key].component;
               return (
                 <Route
-                  key={key}
+                  key={authLayouts[key].path}
                   path={authLayouts[key].path}
                   element={<Component />}
                 />
@@ -26,9 +26,9 @@ const UserLayout = () => {
             })}
           </Routes>
         </Suspense>
-        <ToastContainer />
+        <ToastContainer autoClose={2000} />
       </Content>
-      <Footer />
+      {/* <Footer /> */}
     </Layout>
   );
 };

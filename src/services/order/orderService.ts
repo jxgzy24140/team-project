@@ -6,7 +6,6 @@ import {
   ShippingMethodOutputDto,
   PaymentMethodOutputDto,
 } from "@/services/order/dto";
-
 import IResponseWithPagination from "@/services/responseWithPaginationDto";
 import { IHttpRequest } from "../httpRequestDto";
 
@@ -20,9 +19,10 @@ class OrderService {
   }
 
   public async updateOrder(
+    id: number,
     input: IUpdateOrderInput
   ): Promise<IHttpRequest<OrderOutputDto>> {
-    const response = await http.patch("orders", input);
+    const response = await http.patch(`orders/${id}`, input);
     return response.data;
   }
 

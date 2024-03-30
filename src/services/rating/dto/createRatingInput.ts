@@ -1,7 +1,7 @@
 export interface ICreateRatingInput {
-  Stars: number;
-  RatingText: string;
-  OrderDetailId: number;
-  CustomerId: string;
-  ProductId: number;
+  stars: number;
+  ratingText: string;
+  orderDetailId: number;
+  userId: string;
+  productId: number;
 }

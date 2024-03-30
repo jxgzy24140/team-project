@@ -7,6 +7,7 @@ import { inject, observer } from "mobx-react";
 import Stores from "@/stores/storeIdentifier";
 import ProductStore from "@/stores/productStore";
 import CategoryStore from "@/stores/categoryStore";
+import { toast } from "react-toastify";
 
 // Layout cho Form
 const formItemLayout = {
@@ -100,7 +101,17 @@ const Edit = inject(
       if (fileList[0]?.originFileObj) {
         values.imageFile = fileList[0]?.originFileObj;
       }
-      await productStore.update(values.productId, values);
+      const result: any = await productStore.update(values.productId, values);
+      if (result?.success) {
+        toast.success("Cập nhật sản phẩm thành công!", {
+          autoClose: 2000,
+        });
+        setTimeout(() => navigate(-1), 2500);
+      } else {
+        toast.error(`Cập nhật thất bại!, ${result.message}`, {
+          delay: 2000,
+        });
+      }
     };
 
     return (
@@ -120,9 +131,18 @@ const Edit = inject(
           <Form.Item name="productId" style={{ display: " none" }}>
             <Input />
           </Form.Item>
+
           <Form.Item
             label="Product Name"
             name="productName"
+            rules={[{ required: true, message: "Please input!" }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Product Code"
+            name="productCode"
             rules={[{ required: true, message: "Please input!" }]}
           >
             <Input />
@@ -137,7 +157,10 @@ const Edit = inject(
               {categoryStore?.categories?.items &&
                 categoryStore?.categories?.items.map((category: any) => {
                   return (
-                    <Option value={category.categoryId}>
+                    <Option
+                      value={category.categoryId}
+                      key={category.categoryId}
+                    >
                       {category.categoryName}
                     </Option>
                   );
@@ -174,10 +197,7 @@ const Edit = inject(
           <Form.Item
             label="Price"
             name="price"
-            rules={[
-              { required: true, message: "Please input!" },
-              // { min: 1, message: "Giá tối thiểu là 1" },
-            ]}
+            rules={[{ required: true, message: "Please input!" }]}
           >
             <InputNumber style={{ width: "100%" }} min={1} />
           </Form.Item>
@@ -185,11 +205,7 @@ const Edit = inject(
           <Form.Item
             label="Discount"
             name="discount"
-            rules={[
-              { required: true, message: "Please input!" },
-              // { min: 0, message: "Giảm giá tối thiểu là 0%" },
-              // { max: 100, message: "Giảm giá tối đa là 100%" },
-            ]}
+            rules={[{ required: true, message: "Please input!" }]}
           >
             <InputNumber style={{ width: "100%" }} min={0} max={100} />
           </Form.Item>
@@ -197,10 +213,7 @@ const Edit = inject(
           <Form.Item
             label="Quantity"
             name="quantity"
-            rules={[
-              { required: true, message: "Please input!" },
-              // { min: 0, message: "Số lượng tối thiểu là 0!" },
-            ]}
+            rules={[{ required: true, message: "Please input!" }]}
           >
             <InputNumber style={{ width: "100%" }} min={0} />
           </Form.Item>

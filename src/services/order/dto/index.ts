@@ -8,3 +8,4 @@ export type { IOrderStatusOutput as OrderStatusOutputDto } from "@/services/orde
 export type { IPaymentMethodOutput as PaymentMethodOutputDto } from "@/services/order/dto/paymentMethodOutput";
 export type { IShippingMethodOutput as ShippingMethodOutputDto } from "@/services/order/dto/shippingMethodOutput";
 export type { IUpdateOrderInput } from "@/services/order/dto/updateOrderInput";
+export type { IUserOrderList } from "@/services/order/dto/userOrderList";

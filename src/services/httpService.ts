@@ -1,6 +1,5 @@
 import { REQUEST_BASE_URL } from "@/utils/appConfig";
 import axios from "axios";
-import AuthenticationStore from "@/stores/authenticationStore";
 import authService from "./auth/authService";
 
 const http = axios.create({

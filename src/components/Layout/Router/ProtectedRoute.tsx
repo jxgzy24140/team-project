@@ -6,10 +6,10 @@ import Stores from "@/stores/storeIdentifier";
 
 const ProtectedRoute = inject(Stores.AuthenticationStore)(
   ({ children, authenticationStore, navigate }: any) => {
-    useEffect(() => {
-      if (!sessionStorage.getItem("accessToken"))
-        navigate(`/auth/${authLayouts.login.path}`);
-    }, []);
+    // useEffect(() => {
+    //   if (!sessionStorage.getItem("accessToken"))
+    //     navigate(`/auth/${authLayouts.login.path}`);
+    // }, []);
     return <>{children}</>;
   }
 );

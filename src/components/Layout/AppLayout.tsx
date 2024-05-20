@@ -31,7 +31,7 @@ const AppLayout = () => {
             })}
           </Routes>
         </Suspense>
-        <ToastContainer autoClose={50000} />
+        <ToastContainer autoClose={2000} />
       </Content>
       <Footer />
     </Layout>

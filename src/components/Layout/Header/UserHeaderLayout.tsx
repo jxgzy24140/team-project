@@ -161,7 +161,7 @@ const UserHeaderLayout = inject(
                   <Row className="gap-1">
                     <BellOutlined style={{ fontSize: "24px" }} />
                     <Dropdown
-                      trigger={["hover"]}
+                      trigger={["hover", "click"]}
                       overlay={
                         <Menu>
                           <Menu.Item key={Math.random()}>PROFILE</Menu.Item>

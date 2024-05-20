@@ -30,20 +30,20 @@ const Register = (props: IProps) => {
     const { email, password } = values;
 
     if (
-      // containsSpecialChar(email) ||
+      containsSpecialChar(email) ||
       email.length < 8 ||
-      email.length > 32
-      // startsWithNumber(email) ||
-      // email.includes(" ")
+      email.length > 32 ||
+      startsWithNumber(email) ||
+      email.includes(" ")
     ) {
       toast("Đăng ký thất bại, tên đăng nhập không hợp lệ!");
     } else {
       if (
-        //password.length < 8 ||
+        password.length < 8 ||
         password.length > 32 ||
-        password.includes(" ")
-        //!containsUpperCase(password) ||
-        //containsSpecialChar(password)
+        password.includes(" ") ||
+        !containsUpperCase(password) ||
+        containsSpecialChar(password)
       ) {
         toast("Đăng ký thất bại, mật khẩu không hợp lệ!");
       } else {

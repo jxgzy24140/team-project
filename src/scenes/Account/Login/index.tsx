@@ -31,14 +31,14 @@ const Login = inject(Stores.AuthenticationStore)(
       if (
         email.length < 8 ||
         email.length > 32 ||
-        // containsSpecialChar(email) ||
+        containsSpecialChar(email) ||
         startsWithNumber(email) ||
         email.includes(" ")
       ) {
         toast("Tên đăng nhập không hợp lệ!");
       } else {
         if (
-          // password.length < 8 ||
+          password.length < 8 ||
           password.length > 32 ||
           password.includes(" ") ||
           containsSpecialChar(password)
